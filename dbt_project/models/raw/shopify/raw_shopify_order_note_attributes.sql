@@ -3,8 +3,8 @@ SELECT
     o.ID AS ORDER_ID, -- Order ID from the orders table
 
     -- Note Attributes Information
-    na.VALUE:NAME::STRING AS ATTRIBUTE_NAME,
-    na.VALUE:VALUE::STRING AS ATTRIBUTE_VALUE -- Convert all values to STRING for consistency
+    na->>'NAME' AS ATTRIBUTE_NAME,
+    na->>'VALUE' AS ATTRIBUTE_VALUE -- Convert all values to STRING for consistency
 FROM
     {{ source('shopify','orders') }} o,
-    TABLE(FLATTEN(INPUT => o.NOTE_ATTRIBUTES)) na -- Flatten the note_attributes array
+    UNNEST(o.NOTE_ATTRIBUTES) na -- Flatten the note_attributes array

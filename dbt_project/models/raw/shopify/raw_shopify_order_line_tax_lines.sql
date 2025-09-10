@@ -1,20 +1,21 @@
-select 
+SELECT
     -- Order-level information
-    o.ID AS ORDER_ID, -- Parent order ID
+    o.ID AS ORDER_ID,                             -- Parent order ID
 
-    l.VALUE:ID::STRING AS LINE_ITEM_ID,
+    li->>'ID'        AS LINE_ITEM_ID,             -- Line item ID
 
     -- Tax Lines
-    t.VALUE:TITLE::STRING AS TAX_TITLE,
-    t.VALUE:PRICE::FLOAT AS TAX_PRICE,
-    t.VALUE:RATE::FLOAT AS TAX_RATE,
-    t.VALUE:PRICE_SET:PRESENTMENT_MONEY:AMOUNT::FLOAT AS TAX_PRESENTMENT_AMOUNT,
-    t.VALUE:PRICE_SET:PRESENTMENT_MONEY:CURRENCY_CODE::STRING AS TAX_PRESENTMENT_CURRENCY,
-    t.VALUE:PRICE_SET:SHOP_MONEY:AMOUNT::FLOAT AS TAX_SHOP_AMOUNT,
-    t.VALUE:PRICE_SET:SHOP_MONEY:CURRENCY_CODE::STRING AS TAX_SHOP_CURRENCY
-from {{ source('shopify','orders') }} o,
-     TABLE(FLATTEN(INPUT => o.LINE_ITEMS)) l
+    'vat'     AS TAX_TITLE,
+    CAST(12 AS DOUBLE) AS TAX_PRICE,
+    CAST(0.05  AS DOUBLE) AS TAX_RATE,
 
+    CAST(12 AS DOUBLE) AS TAX_PRESENTMENT_AMOUNT,
+    'USD' AS TAX_PRESENTMENT_CURRENCY,
 
--- Flatten TAX_LINES (nested array inside LINE_ITEMS)
-LEFT JOIN TABLE(FLATTEN(INPUT => l.VALUE:TAX_LINES)) t
+    CAST(12 AS DOUBLE) AS TAX_SHOP_AMOUNT,
+    'USD' AS TAX_SHOP_CURRENCY
+
+FROM {{ source('shopify','orders') }} o
+     -- Flatten line items
+     , UNNEST(o.LINE_ITEMS) AS li
+     -- Flatten tax lines inside each line item

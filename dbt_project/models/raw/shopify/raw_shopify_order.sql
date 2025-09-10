@@ -1,8 +1,9 @@
 with source as (
-    select * from shopify.main.orders
+    select * from {{ source('shopify','orders')}}
 ),
 renamed as (
     select
+        "_PORTABLE_EXTRACTED",
         CAST("ADMIN_GRAPHQL_API_ID" AS VARCHAR) as admin_graphql_api_id,
         CAST("APP_ID" AS VARCHAR) as app_id,
         "BROWSER_IP",
