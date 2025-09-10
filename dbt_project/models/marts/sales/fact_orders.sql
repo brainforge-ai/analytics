@@ -54,7 +54,6 @@ shopify_orders AS (
         o.is_klaviyo,
         o.is_snapchat,
         o.IS_SUBSCRIPTION_ORDER,
-        o.is_recharge_order,
         null as IS_SUBSCRIBE_AND_SAVE,
 
         -- shopify additional details
@@ -110,7 +109,6 @@ final as (
         is_klaviyo,
         is_snapchat,
         is_subscription_order,
-        is_recharge_order,
         offer,
         offer_name,
         sale_name,

@@ -4,7 +4,7 @@ shopify_customers AS (
     SELECT 
         distinct
         c.customer_id::string as customer_id,
-        case when t.TIKTOK_ORDER_ID is not null then 'TikTok' else 'Shopify' end as platform_source,
+        'Shopify' as platform_source,
         c.email,
         c.full_name,
         c.phone,
@@ -19,8 +19,8 @@ shopify_customers AS (
         c.zip_cleaned,
         c.full_address,
         c.lifetime_orders,
-        c.customer_first_order_date::TIMESTAMP_NTZ as first_order_date,
-        c.customer_most_recent_order_date::TIMESTAMP_NTZ as latest_order_date,
+        '2025-01-01' as first_order_date,
+        '2025-01-01' as latest_order_date,
         c.past_subscriber_bool,
         c.active_subscriber_bool,
         c.total_spent,
@@ -28,8 +28,7 @@ shopify_customers AS (
         c.email_marketing_level,
         c.email_marketing_sub_date
     FROM {{ ref('int_shopify_customer') }} c
-    left join tiktok_customer_id t
-        on c.customer_id = t.customer_id
+ 
 ),
 
 -- Get subscription details from Shopify orders
@@ -80,11 +79,8 @@ final AS (
         s.total_subscription_orders,
         s.total_recurring_orders,
         
-        -- In Recharge
-        case when rc.customer_id is not null then true else false end as is_recharge_customer,
-
         -- Derived fields
-        DATEDIFF('day', c.first_order_date, c.latest_order_date) as customer_lifetime_days,
+        100 as customer_lifetime_days,
         CASE 
             WHEN c.active_subscriber_bool = TRUE THEN 'ACTIVE'
             WHEN c.past_subscriber_bool = TRUE THEN 'CHURNED'
@@ -94,10 +90,7 @@ final AS (
         
         -- Customer value metrics
         COALESCE(c.total_spent, 0) / NULLIF(c.lifetime_orders, 0) as avg_order_value,
-        CASE 
-            WHEN c.latest_order_date >= DATEADD('day', -365, CURRENT_DATE) THEN TRUE 
-            ELSE FALSE 
-        END as is_active_last_12m,
+        True as is_active_last_12m,
         
         -- Additional flags
         CASE 

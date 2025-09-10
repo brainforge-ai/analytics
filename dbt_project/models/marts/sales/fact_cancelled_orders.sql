@@ -54,7 +54,6 @@ shopify_orders AS (
         o.is_klaviyo,
         o.is_snapchat,
         o.IS_SUBSCRIPTION_ORDER,
-        o.is_recharge_order,
         null as IS_SUBSCRIBE_AND_SAVE,
 
         -- shopify additional details
@@ -92,7 +91,6 @@ shopify_orders AS (
 ),
 
 final as (
-     
     select
         distinct
         order_id,
@@ -111,7 +109,6 @@ final as (
         is_klaviyo,
         is_snapchat,
         is_subscription_order,
-        is_recharge_order,
         offer,
         offer_name,
         sale_name,
@@ -140,9 +137,7 @@ final as (
         ifnull(processing_fee, 0) as processing_fee,
         ifnull(platform_fee, 0) as platform_fee,
         IS_SUBSCRIBE_AND_SAVE,
-        total_tax,
-        CANCELLED_AT, 
-        CANCEL_REASON,
+        total_tax
     from shopify_orders
 )
 
