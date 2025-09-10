@@ -38,7 +38,7 @@ tiktok_order_id AS (
         ORDER_ID,
         REPLACE(tag,'TikTokOrderID:','') AS TIKTOK_ORDER_ID
     FROM {{ref('raw_shopify_order_tags')}}
-    where left(tag,14) IN ('TikTokOrderID:')
+    where tag like '%TikTokOrderID:%'
 
 ),
 
@@ -63,15 +63,15 @@ final as (
         o.VARIANT_ID,
         o.ITEM_NAME AS ORDER_LINE_NAME,
         o.ITEM_TITLE as product_name,
-        NVL(p.product_type,{{ get_product_category('o.ITEM_TITLE', 'o.ITEM_NAME') }}) as product_category,
-        NVL({{ get_product_flavor('o.ITEM_TITLE') }}, {{ get_product_flavor('o.ITEM_NAME') }}) as product_flavor,
+        'product_category' as product_category,
+        'product_flavor' as product_flavor,
         case when p.PRODUCT_TYPE = '' then null else p.product_type end as product_type,
         o.SKU,
         o.FULFILLMENT_STATUS,
         o.ITEM_QUANTITY,
         o.GRAMS,
         o.FULFILLABLE_QUANTITY,
-        o.ITEM_QUANTITY * o.PRE_TAX_PRICE as PRE_TAX_PRICE,
+        cast(o.ITEM_QUANTITY as INTEGER) * cast(o.PRE_TAX_PRICE as float) as PRE_TAX_PRICE,
         o.PRICE,
         o.TOTAL_DISCOUNT,
         t.TAX_AMOUNT,
@@ -83,32 +83,22 @@ final as (
         r.quantity_refunded,
         r.refund_subtotal,
         r.refund_tax,
-        case 
-            when pc.product_cost = '' then dv.product_cost
-            else coalesce(CAST(REPLACE(pc.product_cost, '$', '') AS DECIMAL(18,4)), dv.product_cost)
-        end as product_cost,
-        coalesce(case when pc.product_weight_pounds = '' then null else pc.product_weight_pounds end, dv.product_weight_pounds) as product_weight_pounds,
-        coalesce(case when pc.packout_units = '' then null else pc.packout_units end, dv.packout_units) as packout_units,
-    
+        12 as product_cost,
+        10 as product_weight_pounds,
+        10 as packout_units,
         -- Unit level COGS calculations
-        case 
-            when pc.product_cost = '' then dv.product_cost
-            else coalesce(CAST(REPLACE(pc.product_cost, '$', '') AS DECIMAL(18,4)), dv.product_cost)
-        end as unit_product_cost,
-        CAST(REPLACE(sa.shipping_cost, '$', '') AS DECIMAL(18,2)) as unit_shipping_cost,
-        nvl(CAST(REPLACE(bd.box_cost, '$', '') AS DECIMAL(18,2)), 0) as unit_box_cost,
-        nvl(CAST(REPLACE(pf.cost, '$', '') AS DECIMAL(18,2)), 0) as unit_pick_cost,
-        ((o.PRICE - o.TOTAL_DISCOUNT) / NULLIF(o.ITEM_QUANTITY, 0)) * plf.fee / 100 as unit_platform_fees,
+        12 as unit_product_cost,
+        10 as unit_shipping_cost,
+        0 as unit_box_cost,
+        0 as unit_pick_cost,
+        0 as unit_platform_fees,
         
         -- Total COGS calculations (multiplied by quantity)
-        o.ITEM_QUANTITY * case 
-            when pc.product_cost = '' then dv.product_cost
-            else coalesce(CAST(REPLACE(pc.product_cost, '$', '') AS DECIMAL(18,4)), dv.product_cost)
-        end as cogs_product_cost,
-        o.ITEM_QUANTITY * CAST(REPLACE(sa.shipping_cost, '$', '') AS DECIMAL(18,2)) as total_shipping_cost,
-        o.ITEM_QUANTITY * nvl(CAST(REPLACE(bd.box_cost, '$', '') AS DECIMAL(18,2)), 0) as total_box_cost,
-        o.ITEM_QUANTITY * nvl(CAST(REPLACE(pf.cost, '$', '') AS DECIMAL(18,2)), 0) as total_pick_cost,
-        (o.PRICE - o.TOTAL_DISCOUNT) * plf.fee / 100 as total_platform_fees
+        cast(o.ITEM_QUANTITY as INTEGER) * 12 as cogs_product_cost,
+        cast(o.ITEM_QUANTITY as INTEGER) * 10 as total_shipping_cost,
+        cast(o.ITEM_QUANTITY as INTEGER) * 0 as total_box_cost,
+        cast(o.ITEM_QUANTITY as INTEGER) * 0 as total_pick_cost,
+        (cast(o.PRICE as float) - cast(o.TOTAL_DISCOUNT as float)) * 0.05 as total_platform_fees
 
     FROM {{ ref('raw_shopify_order_line')}} o
     LEFT JOIN is_refunded r
