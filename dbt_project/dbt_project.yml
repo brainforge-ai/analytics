@@ -2,48 +2,17 @@ name: 'dummyclient'
 version: '1.0.0'
 require-dbt-version: [">=1.0.0", "<2.0.0"]
 
-# This setting configures which "profile" dbt uses for this project.
 profile: 'dummyclient'
 
 model-paths: ["models"]
-test-paths: ["tests"]
 seed-paths: ["seeds"]
+test-paths: ["tests"]
 macro-paths: ["macros"]
 
-clean-targets:         # directories to be removed by `dbt clean`
+clean-targets:
   - "target"
   - "dbt_packages"
 
 models:
   dummyclient:
-    
-    # Set default materialization
-    +materialized: table
-    
-    raw:
-      +schema: raw
-      +materialized: ephemeral 
-      
-    # Intermediate models configuration
-    intermediate:
-      +materialized: table
-      +database: "{% if target.name == 'dev' %}DEV{% elif target.name == 'cicd' %}STG{% else %}PROD{% endif %}_INTERMEDIATE"
-      
-      amazon:
-        +schema: amazon
-      gorgias:
-        +schema: gorgias
-      okendo:
-        +schema: okendo
-      shopify:
-        +schema: shopify
-      
-
-    # Marts models configuration
-    marts:
-      +materialized: table
-      +schema: marts
-      +database: "{% if target.name == 'dev' %}DEV{% elif target.name == 'cicd' %}STG{% else %}PROD{% endif %}_MARTS"
-      +persist_docs:
-        relation: true    # Adds description to the table/view in the DW
-        columns: true     # Adds description to columns in the DW
+    +materialized: table   # everything defaults to table

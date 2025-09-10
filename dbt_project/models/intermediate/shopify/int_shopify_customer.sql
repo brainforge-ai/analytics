@@ -51,7 +51,7 @@ email_marketing_consent as (
         emc.VALUE:OPT_IN_LEVEL AS EMAIL_MARKETING_LEVEL,
         emc.VALUE:CONSENT_UPDATED_AT AS EMAIL_MARKETING_SUB_DATE
     FROM
-        {{ source('portable_shopify','customers') }} c,
+        {{ source('shopify','customers') }} c,
         TABLE(FLATTEN(INPUT => c.EMAIL_MARKETING_CONSENT)) emc
 )
 
@@ -93,7 +93,7 @@ SELECT
     emc.EMAIL_MARKETING_LEVEL,
     emc.EMAIL_MARKETING_SUB_DATE
 
-FROM {{ source('portable_shopify','customers')}} c
+FROM {{ source('shopify','customers')}} c
 LEFT JOIN ADDRESS a
     ON a.customer_id = c.ID
 LEFT JOIN SUB sb

@@ -1,19 +1,5 @@
 
-WITH tiktok_customer_id AS (
-
-    SELECT
-        distinct
-        o.customer_id::string as customer_id,
-        first_value(REPLACE(VALUE,'TikTokOrderID:','') ) over (partition by o.customer_id order by o.created_at desc) as TIKTOK_ORDER_ID
-    FROM {{ source('shopify_raw','order_tag')}} ot
-    left join "RAW"."SHOPIFY"."ORDER" o
-        on o.id = ot.order_id
-    where left(value,14) IN ('TikTokOrderID:')
-
-    
-
-),
-
+WITH 
 shopify_customers AS (
     SELECT 
         distinct
@@ -46,35 +32,6 @@ shopify_customers AS (
         on c.customer_id = t.customer_id
 ),
 
-amazon_customers AS (
-    SELECT 
-        customer_id::string as customer_id,
-        platform_source,
-        email,
-        full_name,
-        phone,
-        address_1,
-        address_2,
-        city,
-        state,
-        NULL as state_code,
-        NULL as country,
-        country_code,
-        zip,
-        zip as zip_cleaned,
-        address_1 || ' ' || COALESCE(address_2, '') || ', ' || city || ' ' || state || ', ' || zip as full_address,
-        lifetime_orders,
-        first_order_date::TIMESTAMP_NTZ,
-        most_recent_order_date::TIMESTAMP_NTZ as latest_order_date,
-        FALSE as past_subscriber_bool,
-        FALSE as active_subscriber_bool,
-        NULL as total_spent,
-        NULL as email_marketing_sku,
-        NULL as email_marketing_level,
-        NULL as email_marketing_sub_date
-    FROM {{ ref('int_amazon_customer') }}
-),
-
 -- Get subscription details from Shopify orders
 subscription_details AS (
     SELECT 
@@ -90,8 +47,6 @@ subscription_details AS (
 -- Combine all customers
 combined_customers AS (
     SELECT * FROM shopify_customers
-    UNION ALL
-    SELECT * FROM amazon_customers
 ),
 
 final AS (
@@ -154,8 +109,6 @@ final AS (
     FROM combined_customers c
     LEFT JOIN subscription_details s
         ON s.customer_id = c.customer_id
-    left join {{ref('dim_recharge_customers')}} rc
-        on c.email = rc.email
 )
 
 SELECT * from final

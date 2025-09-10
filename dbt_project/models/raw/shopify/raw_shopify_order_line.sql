@@ -26,7 +26,7 @@ select
     l.VALUE:VENDOR::STRING AS VENDOR,
     l.VALUE:PRODUCT_ID::STRING AS PRODUCT_ID
 
-from {{ source('portable_shopify','orders') }} o,
+from {{ source('shopify','orders') }} o,
      TABLE(FLATTEN(INPUT => o.LINE_ITEMS)) l,
      LATERAL FLATTEN(input => l.value:DISCOUNT_ALLOCATIONS, OUTER => TRUE) d
 GROUP BY ALL

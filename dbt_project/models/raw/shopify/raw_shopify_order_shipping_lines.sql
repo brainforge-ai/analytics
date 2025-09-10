@@ -20,5 +20,5 @@ SELECT
     sl.VALUE:SOURCE::STRING AS SHIPPING_SOURCE,
     sl.VALUE:TITLE::STRING AS SHIPPING_TITLE
 
-FROM {{ source('portable_shopify','orders') }} o,
+FROM {{ source('shopify','orders') }} o,
      TABLE(FLATTEN(INPUT => o.SHIPPING_LINES)) sl

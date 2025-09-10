@@ -28,7 +28,7 @@ dates AS (
     SELECT
         ID,
         created_at as order_created_date
-    FROM {{ source('portable_shopify','orders') }} 
+    FROM {{ source('shopify','orders') }} 
 
 ),
 
@@ -43,12 +43,13 @@ tiktok_order_id AS (
 ),
 
 default_values as (
-    select 
-        CAST(REPLACE(product_cost, '$', '') AS DECIMAL(18,2)) as product_cost,
-        product_weight_pounds,
-        packout_units
-    from {{ source('PORTABLE_GOOGLE_SHEETS_ETL_PRODUCT_COST', 'SPREADSHEET_VALUES') }}
-    where lower(sku) = 'default'
+    with default_product_cost as (
+        select 
+            20 as product_cost,
+            10 as product_weight_pounds,
+            10 as packout_units
+    )
+    select * from default_product_cost
 ),
 
 final as (
@@ -122,24 +123,9 @@ final as (
         on o.product_id = p.product_id
     LEFT JOIN tiktok_order_id toi
         ON toi.order_id = o.order_id
-    left join (
-        select * from {{ source('PORTABLE_GOOGLE_SHEETS_ETL_PRODUCT_COST', 'SPREADSHEET_VALUES') }} 
-        Qualify row_number() over(partition by lower(app_source), lower(sku) order by _portable_extracted desc) = 1
-    )pc
-        on lower(pc.sku) = lower(o.sku)
-        and lower(pc.app_source) = 'shopify'
+    
 
     cross join default_values dv
-
-        -- Add COGS related joins
-    left join {{ source('PORTABLE_GOOGLE_SHEETS_SHIPPING_ASSUMPTIONS','SPREADSHEET_VALUES')}} sa
-        on round(coalesce(case when pc.product_weight_pounds = '' then null else pc.product_weight_pounds end, dv.product_weight_pounds),0) = sa.weight_pounds
-    left join {{ source('PORTABLE_GOOGLE_SHEETS_BOX_COST_DUNNAGE_ASSUMPTIONS','SPREADSHEET_VALUES')}} bd
-        on coalesce(case when pc.packout_units = '' then null else pc.packout_units end, dv.packout_units) = bd.units
-    left join {{ source('PORTABLE_GOOGLE_SHEETS_PICK_FEES_ASSUMPTIONS','SPREADSHEET_VALUES')}} pf
-        on coalesce(case when pc.packout_units = '' then null else pc.packout_units end, dv.packout_units) = pf.units
-    left join {{ source('PORTABLE_GOOGLE_SHEETS_PLATFORM_FEES_ASSUMPTIONS','SPREADSHEET_VALUES')}} plf
-        on plf.app_source = case when toi.TIKTOK_ORDER_ID is not null then 'TikTok' else 'Shopify' end
 )
 
 select * from final

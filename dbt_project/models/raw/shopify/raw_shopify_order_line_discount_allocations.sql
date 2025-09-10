@@ -13,7 +13,7 @@ select
     d.VALUE:AMOUNT_SET:SHOP_MONEY:AMOUNT::FLOAT AS DISCOUNT_SHOP_AMOUNT,
     d.VALUE:AMOUNT_SET:SHOP_MONEY:CURRENCY_CODE::STRING AS DISCOUNT_SHOP_CURRENCY,
 
-from {{ source('portable_shopify','orders') }} o,
+from {{ source('shopify','orders') }} o,
      TABLE(FLATTEN(INPUT => o.LINE_ITEMS)) l
 
 -- Flatten DISCOUNT_ALLOCATIONS (nested array inside LINE_ITEMS)

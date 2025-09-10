@@ -17,7 +17,7 @@ SELECT
     oa.VALUE:TAX_AMOUNT_SET:SHOP_MONEY:CURRENCY_CODE::STRING AS ORDER_ADJUSTMENT_TAX_SHOP_CURRENCY,
 
   
-FROM {{ source('portable_shopify','orders') }} o,
+FROM {{ source('shopify','orders') }} o,
      TABLE(FLATTEN(INPUT => o.REFUNDS)) r
 
 -- Flatten ORDER_ADJUSTMENTS (nested array inside REFUNDS)

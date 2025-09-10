@@ -32,6 +32,6 @@ SELECT
     rli.VALUE:TOTAL_TAX_SET:PRESENTMENT_MONEY:CURRENCY_CODE::STRING AS REFUND_PRESENTMENT_TOTAL_TAX_CURRENCY
 
 FROM
-    {{ source('portable_shopify','orders') }} o,
+    {{ source('shopify','orders') }} o,
     TABLE(FLATTEN(INPUT => o.REFUNDS)) r,
     TABLE(FLATTEN(INPUT => r.VALUE:REFUND_LINE_ITEMS)) rli

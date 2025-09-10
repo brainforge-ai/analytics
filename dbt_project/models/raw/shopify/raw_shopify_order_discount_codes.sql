@@ -7,5 +7,5 @@ SELECT
     dc.VALUE:CODE::STRING AS DISCOUNT_CODE,
     dc.VALUE:TYPE::STRING AS DISCOUNT_TYPE
 
-FROM {{ source('portable_shopify','orders') }} o,
+FROM {{ source('shopify','orders') }} o,
      TABLE(FLATTEN(INPUT => o.DISCOUNT_CODES)) dc

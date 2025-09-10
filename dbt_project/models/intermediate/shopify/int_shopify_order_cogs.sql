@@ -30,14 +30,6 @@ final as (
         CAST(REPLACE(pf.cost, '$', '') AS FLOAT) as order_pick_cost,
         plf.fee as plf_fee
     from cogs_metrics cm
-    left join {{ source('PORTABLE_GOOGLE_SHEETS_SHIPPING_ASSUMPTIONS','SPREADSHEET_VALUES')}} sa
-        on cm.cogs_product_weight_pounds_rounded = sa.weight_pounds
-    left join {{ source('PORTABLE_GOOGLE_SHEETS_BOX_COST_DUNNAGE_ASSUMPTIONS','SPREADSHEET_VALUES')}}  bd
-        on cm.cogs_packout_units = bd.units
-    left join {{ source('PORTABLE_GOOGLE_SHEETS_PICK_FEES_ASSUMPTIONS','SPREADSHEET_VALUES')}}  pf
-        on cm.cogs_packout_units = pf.units
-    left join {{ source('PORTABLE_GOOGLE_SHEETS_PLATFORM_FEES_ASSUMPTIONS','SPREADSHEET_VALUES')}}  plf
-        on plf.app_source = cm.app_source
 
 )
 

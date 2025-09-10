@@ -30,5 +30,5 @@ SELECT
     v.VALUE:WEIGHT::FLOAT AS WEIGHT,
     v.VALUE:WEIGHT_UNIT::STRING AS WEIGHT_UNIT
 
-FROM {{ source('portable_shopify','products')}} p,
+FROM {{ source('shopify','products')}} p,
      TABLE(FLATTEN(INPUT => p.VARIANTS)) v

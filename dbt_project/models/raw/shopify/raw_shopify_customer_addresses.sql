@@ -21,5 +21,5 @@ SELECT
     addr.VALUE:PROVINCE_CODE::STRING AS PROVINCE_CODE,
     addr.VALUE:ZIP::STRING AS ZIP
 FROM
-    {{ source('portable_shopify','customers') }} c,
+    {{ source('shopify','customers') }} c,
     TABLE(FLATTEN(INPUT => c.ADDRESSES)) addr -- Flatten the addresses array

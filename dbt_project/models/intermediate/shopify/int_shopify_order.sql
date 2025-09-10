@@ -9,18 +9,6 @@ WITH discounts AS (
 
 ),
 
-fees AS (
-
-    SELECT 
-        order_id,
-        -- Aggregate receipt data to keep one row per order, as detailed granularity isn't needed.
-        LISTAGG(receipt, ', ') as receipt,
-        SUM(JSON_EXTRACT_PATH_TEXT(receipt, 'PaymentInfo.FeeAmount')) AS FEE_AMOUNT
-    from {{ source('shopify_raw','transaction')}}
-    WHERE receipt ILIKE ('%feeamount%')
-    GROUP BY all
-
-),
 
 shipping_codes AS (
 
@@ -242,8 +230,6 @@ final as (
         ON re.order_id = o.ORDER_ID
     LEFT JOIN tiktok_order_id toi
         ON toi.order_id = o.ORDER_ID
-    LEFT JOIN fees f
-        ON f.order_id = o.ORDER_ID
     LEFT JOIN shopify_tags st
         ON st.order_id = o.ORDER_ID
     left join offer off
@@ -267,9 +253,5 @@ final as (
 )
 
 select 
-    final.*,
-    case when EXTERNAL_ORDER_ID:"ECOMMERCE"::integer is not null then TRUE ELSE FALSE end as is_recharge_order
+    final.*
 from final 
-left join {{source('portable_recharge', 'orders')}}
-on order_id = EXTERNAL_ORDER_ID:"ECOMMERCE"::integer
-group by all

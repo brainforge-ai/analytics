@@ -37,6 +37,6 @@ SELECT
     t.VALUE:RECEIPT:METADATA::STRING AS RECEIPT_METADATA,
     t.VALUE:RECEIPT:STATUS::STRING AS RECEIPT_STATUS
 
-FROM {{ source('portable_shopify','orders') }} o,
+FROM {{ source('shopify','orders') }} o,
      TABLE(FLATTEN(INPUT => o.REFUNDS)) r,
      TABLE(FLATTEN(INPUT => r.VALUE:TRANSACTIONS)) t

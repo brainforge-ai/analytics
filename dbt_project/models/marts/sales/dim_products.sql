@@ -38,55 +38,7 @@ with shopify_product as (
         -- current_timestamp as created_at,  -- timestamp when the product or SKU is added ???
         -- current_timestamp as updated_at   -- timestamp of the last product or SKU update ???
     from {{ ref('int_shopify_order_line') }} sol
-),
-
-amazon_raw_products as (
-    select
-        sku,    -- SKU (seller-defined)
-        asin,   -- Amazon-defined unique identifier for products
-        item_name,
-        product_type
-    from {{ ref('raw_amazon_products') }}
-),
-
-amazon_product as (
-    select 
-        -- primary keys and identifiers
-        arp.asin as product_id,         -- unique id for the product (using ASIN from Amazon to uniquely identify a product)
-        arp.item_name as product_name,  -- name of the product
-        arp.sku,                        -- SKU of the product
-
-        -- product attributes
-        aol.product_category,   -- product category
-        aol.product_flavor,     -- flavor or variant of the product
-        arp.product_type,       -- type of product
-        null as variant_id,     -- Amazon's closest equivalent to variant_id is ASIN, so no need to repeat it here
-
-        -- product metrics
-        aol.product_weight_pounds,  -- weight of the product
-        -- aol.product_weight_pounds_rounded,
-        aol.packout_units,
-
-        -- pricing and costs
-        -- CHECK IF WE NEED THIS HERE AND HOW THIS SHOULD BE DONE (from fact_orders?)
-        aol.item_price_amount as price,   -- CHECK HOW TO BRING LOGIC HERE
-        aol.product_cost,                -- cost of the product
-
-        -- packaging information
-        -- DO WE WANT TO BRING SIZE AND WEIGHT HERE (BLAKE'S CSV)?
-        
-        -- Platform (specific to Amazon)
-        'Amazon' AS app_source,  -- includes 'Amazon' values
-        
-        -- metadata
-        -- current_timestamp as created_at,  -- timestamp when the product or SKU is added ???
-        -- current_timestamp as updated_at   -- timestamp of the last product or SKU update ???
-    from {{ ref('int_amazon_order_line') }} as aol
-    left join amazon_raw_products as arp
-        on aol.seller_sku = arp.sku
 )
-
 select * from shopify_product
-union all
-select * from amazon_product
+
 

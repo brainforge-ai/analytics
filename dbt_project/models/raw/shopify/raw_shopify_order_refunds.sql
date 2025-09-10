@@ -15,7 +15,7 @@ SELECT
     r.VALUE:TOTAL_DUTIES_SET:SHOP_MONEY:CURRENCY_CODE::STRING AS REFUND_TOTAL_DUTIES_SHOP_CURRENCY,
 
   
-FROM {{ source('portable_shopify','orders') }} o,
+FROM {{ source('shopify','orders') }} o,
      TABLE(FLATTEN(INPUT => o.REFUNDS)) r
 
 
