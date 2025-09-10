@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: "Recharge Orders"
+metrics_view: prod_fact_recharge_orders_model_metrics
+
+dimensions: '*'
+measures: '*'

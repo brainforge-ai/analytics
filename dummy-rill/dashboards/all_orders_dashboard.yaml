@@ -1,0 +1,95 @@
+# Dashboard YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+type: metrics_view
+
+title: All Orders Dashboard
+model: prod_fact_orders_model
+timeseries: CREATED_AT
+
+dimensions:
+  - label: App Source
+    column: APP_SOURCE
+  - label: Fulfillment Status
+    column: FULFILLMENT_STATUS
+  - label: Financial Status
+    column: FINANCIAL_STATUS
+  - label: Is Tiktok Shop
+    column: IS_TIKTOK_SHOP
+  - label: Is Klaviyo
+    column: IS_KLAVIYO
+  - label: Is Snapchat
+    column: IS_SNAPCHAT
+  - label: Shipping Address City
+    column: SHIPPING_ADDRESS_CITY
+  - label: Shipping Address Country
+    column: SHIPPING_ADDRESS_COUNTRY
+  - label: Shipping Address Country Code
+    column: SHIPPING_ADDRESS_COUNTRY_CODE
+  - label: Shipping Address Province
+    column: SHIPPING_ADDRESS_PROVINCE
+  - label: Shipping Address Province Code
+    column: SHIPPING_ADDRESS_PROVINCE_CODE
+  - label: Shipping Address Latitude
+    column: SHIPPING_ADDRESS_LATITUDE
+  - label: Shipping Address Longitude
+    column: SHIPPING_ADDRESS_LONGITUDE
+  - label: Order Id
+    column: ORDER_ID
+  - label: Customer Id
+    column: CUSTOMER_ID
+
+measures:
+  - name: total_orders
+    label: Total Orders
+    expression: COUNT(ORDER_ID)
+    description: The total number of orders placed.
+    format_preset: humanize
+    valid_percent_of_total: true
+
+  - name: average_order_value
+    label: Average Order Value
+    expression: AVG(TOTAL_LINE_ITEMS_PRICE)
+    description: The average value of all orders.
+    format_preset: currency_usd
+
+  - name: total_revenue
+    label: Total Revenue
+    expression: SUM(TOTAL_LINE_ITEMS_PRICE)
+    description: The total revenue from all orders.
+    format_preset: currency_usd
+    valid_percent_of_total: true
+
+  - name: total_discounts
+    label: Total Discounts
+    expression: SUM(TOTAL_DISCOUNTS)
+    description: The total amount of discounts applied to all orders.
+    format_preset: humanize
+    valid_percent_of_total: true
+
+  - name: average_discount_per_order
+    label: Average Discount per Order
+    expression: AVG(TOTAL_DISCOUNTS)
+    description: The average discount amount applied per order.
+    format_preset: currency_usd
+
+  - name: total_shipping_revenue
+    label: Total Shipping Revenue
+    expression: SUM(SHIPPING_DISCOUNTED_PRICE)
+    description: The total revenue generated from shipping fees.
+    format_preset: currency_usd
+    valid_percent_of_total: true
+
+  - name: average_shipping_cost
+    label: Average Shipping Cost
+    expression: AVG(SHIPPING_DISCOUNTED_PRICE)
+    description: The average shipping cost per order.
+    format_preset: currency_usd
+
+  - name: total_refund_amount
+    label: Total Refund Amount
+    expression: SUM(REFUND_AMOUNT)
+    description: The total amount refunded across all orders.
+    format_preset: currency_usd
+    valid_percent_of_total: true

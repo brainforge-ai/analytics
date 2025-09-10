@@ -1,0 +1,153 @@
+models:
+  - name: int_recharge__order_lines
+    columns:
+      - name: order_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: charge_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: order_processed_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: order_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: purchase_item_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: purchase_item_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: product_title
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_variant_title
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: property_rc_bundle_parent
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: quantity
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unit_price
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: sku
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: grams
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: line_item_total_price
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_total
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_address_1
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_address_2
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_city
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_country_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_zip
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: billing_address_address_1
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: billing_address_address_2
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: billing_address_city
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: billing_address_country_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: billing_address_province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: billing_address_zip
+        description: ""
+        meta:
+          dimension:
+            type: string

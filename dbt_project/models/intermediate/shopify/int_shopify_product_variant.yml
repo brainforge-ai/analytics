@@ -1,0 +1,83 @@
+models:
+  - name: int_shopify_product_variant
+    columns:
+      - name: product_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: variant_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: inventory_item_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: variant_title
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: price
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: sku
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: compare_at_price
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: grams
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: inventory_quantity
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: weight
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: weight_unit
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: option_1
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: option_2
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: option_3
+        description: ""
+        meta:
+          dimension:
+            type: string

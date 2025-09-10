@@ -1,0 +1,121 @@
+version: 1
+type: metrics_view
+
+display_name: Recharge Orders
+model: prod_fact_recharge_orders_model
+timeseries: ORDER_CREATED_AT
+
+dimensions:
+  - 
+    display_name: Order Status
+    column: ORDER_STATUS
+  - 
+    display_name: Order Type
+    column: ORDER_TYPE
+  - 
+    display_name: Shipping Address Address 1
+    column: SHIPPING_ADDRESS_ADDRESS_1
+  - 
+    display_name: Shipping Address Address 2
+    column: SHIPPING_ADDRESS_ADDRESS_2
+  - 
+    display_name: Shipping Address City
+    column: SHIPPING_ADDRESS_CITY
+  - 
+    display_name: Shipping Address Province
+    column: SHIPPING_ADDRESS_PROVINCE
+  - 
+    display_name: Shipping Address Country Code
+    column: SHIPPING_ADDRESS_COUNTRY_CODE
+  - 
+    display_name: Shipping Address Zip
+    column: SHIPPING_ADDRESS_ZIP
+  - 
+    display_name: Billing Address Address 1
+    column: BILLING_ADDRESS_ADDRESS_1
+  - 
+    display_name: Billing Address Address 2
+    column: BILLING_ADDRESS_ADDRESS_2
+  - 
+    display_name: Billing Address City
+    column: BILLING_ADDRESS_CITY
+  - 
+    display_name: Billing Address Province
+    column: BILLING_ADDRESS_PROVINCE
+  - 
+    display_name: Billing Address Country Code
+    column: BILLING_ADDRESS_COUNTRY_CODE
+  - 
+    display_name: Billing Address Zip
+    column: BILLING_ADDRESS_ZIP
+
+measures:
+  - name: total_orders_measure
+    
+    display_name: Total Orders
+    expression: COUNT(ORDER_ID)
+    description: Total number of recharge orders.
+    format_preset: humanize
+    valid_percent_of_total: true  
+
+  - name: total_customers_measure
+    
+    display_name: Total Customers
+    expression: COUNT(DISTINCT CUSTOMER_ID)
+    description: Total number of unique customers who placed recharge orders.
+    format_preset: humanize
+    valid_percent_of_total: true  
+
+  - name: average_order_quantity_measure
+    
+    display_name: Average Order Quantity
+    expression: AVG(ORDER_QUANTITY)
+    description: Average quantity of items per order.
+    format_preset: humanize
+  - name: total_revenue_measure
+    
+    display_name: Total Revenue
+    expression: SUM(TOTAL_ORDER_PRICE)
+    description: Total revenue generated from recharge orders.
+    format_preset: humanize
+    valid_percent_of_total: true  
+  - name: average_order_value_measure
+    
+    display_name: Average Order Value
+    expression: AVG(TOTAL_ORDER_PRICE)
+    description: Average value of recharge orders.
+    format_preset: humanize
+  - name: max_order_value_measure
+    
+    display_name: Maximum Order Value
+    expression: MAX(TOTAL_ORDER_PRICE)
+    description: Maximum value of a single recharge order.
+    format_preset: humanize
+    valid_percent_of_total: true  
+  - name: min_order_value_measure
+    
+    display_name: Minimum Order Value
+    expression: MIN(TOTAL_ORDER_PRICE)
+    description: Minimum value of a single recharge order.
+    format_preset: humanize
+    valid_percent_of_total: true  
+  - name: total_grams_sold_measure
+    
+    display_name: Total Grams Sold
+    expression: SUM(GRAMS)
+    description: Total grams of product sold through recharge orders.
+    format_preset: humanize
+    valid_percent_of_total: true  
+  - name: average_unit_price_measure
+    
+    display_name: Average Unit Price
+    expression: AVG(TOTAL_UNIT_PRICE)
+    description: Average price per unit in recharge orders.
+    format_preset: humanize
+  - name: total_order_count_by_status_measure
+    
+    display_name: Total Order Count by Status
+    expression: COUNT(ORDER_STATUS)
+    description: Total number of orders categorized by their status.
+    format_preset: humanize
+    valid_percent_of_total: true  

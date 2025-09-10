@@ -1,0 +1,13 @@
+models:
+  - name: int_review_tags
+    columns:
+      - name: review_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: value
+        description: ""
+        meta:
+          dimension:
+            type: string

@@ -1,0 +1,68 @@
+models:
+  - name: int_shopify_product
+    columns:
+      - name: product_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: source_system
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_title
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: handle
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: vendor
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: published_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: published_scope
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_tags
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: suffix
+        description: ""
+        meta:
+          dimension:
+            type: string

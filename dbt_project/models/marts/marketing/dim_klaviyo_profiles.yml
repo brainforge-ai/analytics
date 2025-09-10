@@ -1,0 +1,147 @@
+models:
+  - name: dim_klaviyo_profiles
+    description: "Dimension table for Klaviyo profiles containing detailed profile information, including email preferences, location, order attributes, and raw properties JSON."
+    columns:
+      - name: profile_id
+        description: "Unique identifier for the profile (maps to Klaviyo's ID field)"
+        meta:
+          dimension:
+            type: string
+
+      - name: email
+        description: "The profile's email address"
+        meta:
+          dimension:
+            type: string
+
+      - name: phone_number
+        description: "The profile's phone number"
+        meta:
+          dimension:
+            type: string
+
+      - name: external_id
+        description: "A unique identifier to associate Klaviyo profiles with profiles in an external system"
+        meta:
+          dimension:
+            type: string
+
+      - name: first_name
+        description: "First name of the profile"
+        meta:
+          dimension:
+            type: string
+
+      - name: last_name
+        description: "Last name of the profile"
+        meta:
+          dimension:
+            type: string
+
+      - name: organization
+        description: "The profile's organization"
+        meta:
+          dimension:
+            type: string
+
+      - name: job_title
+        description: "The profile's job title"
+        meta:
+          dimension:
+            type: string
+
+      - name: address1
+        description: "First line of the profile's address"
+        meta:
+          dimension:
+            type: string
+
+      - name: address2
+        description: "Second line of the profile's address (if applicable)"
+        meta:
+          dimension:
+            type: string
+
+      - name: city
+        description: "The city of the profile's address"
+        meta:
+          dimension:
+            type: string
+
+      - name: country
+        description: "The country of the profile's address"
+        meta:
+          dimension:
+            type: string
+
+      - name: region
+        description: "The region of the profile's address (e.g., state, province)"
+        meta:
+          dimension:
+            type: string
+
+      - name: zip
+        description: "The postal/zip code of the profile's address"
+        meta:
+          dimension:
+            type: string
+
+      - name: created_at
+        description: "Timestamp when the profile was first created in Klaviyo"
+        meta:
+          dimension:
+            type: timestamp
+
+      - name: updated_at
+        description: "Timestamp when the profile's information was last updated"
+        meta:
+          dimension:
+            type: timestamp
+
+      - name: last_event_at
+        description: "a timestamp representing when a profile was last active"
+        meta:
+          dimension:
+            type: timestamp
+
+      - name: email_consent_status
+        description: "Email consent status for marketing ('SUBSCRIBED'/'UNSUBSCRIBED')"
+        meta:
+          dimension:
+            type: string
+
+      - name: email_consent_changed_at
+        description: "Timestamp when the email consent status last changed"
+        meta:
+          dimension:
+            type: timestamp
+
+      - name: sms_consent_status
+        description: "SMS consent status for marketing ('SUBSCRIBED'/'UNSUBSCRIBED')"
+        meta:
+          dimension:
+            type: string
+
+      - name: sms_consent_changed_at
+        description: "Timestamp when the SMS consent status last changed"
+        meta:
+          dimension:
+            type: timestamp
+
+      - name: raw_properties
+        description: "Raw JSON containing the profile's properties from Klaviyo's API"
+        meta:
+          dimension:
+            type: variant
+      
+      - name: lifetime_orders
+        description: "The total number of orders the profile has placed"
+        meta:
+          dimension:
+            type: integer
+
+      - name: customer_lifetime_value
+        description: "The total customer lifetime value for the profile"
+        meta:
+          dimension:
+            type: float

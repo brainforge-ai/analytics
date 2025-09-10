@@ -1,0 +1,1 @@
+select * from prod_daily_kpi_agg

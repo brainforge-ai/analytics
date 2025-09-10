@@ -1,0 +1,113 @@
+models:
+  - name: dim_klaviyo_metrics
+    description: "Dimension table for Klaviyo metrics, categorizing all event types (email, SMS, orders, etc.) with business-friendly classifications for attribution analysis."
+    columns:
+      - name: metric_id
+        description: "Unique identifier for the metric (maps to Klaviyo's ID field)"
+        meta:
+          dimension:
+            type: string
+            primary_key: true
+            
+      - name: metric_name
+        description: "The name of the metric as defined in Klaviyo (e.g., 'Received Email', 'Placed Order')"
+        meta:
+          dimension:
+            type: string
+            category: "Event Type"
+            
+      - name: created_at
+        description: "When this metric was first created in Klaviyo"
+        meta:
+          dimension:
+            type: datetime
+            
+      - name: updated_at
+        description: "When this metric was last updated in Klaviyo"
+        meta:
+          dimension:
+            type: datetime
+            
+      - name: integration_id
+        description: "ID of the integration that generated this metric"
+        meta:
+          dimension:
+            type: string
+            
+      - name: integration_key
+        description: "Technical key for the integration source"
+        meta:
+          dimension:
+            type: string
+            
+      - name: integration_name
+        description: "Human-readable name of the integration (e.g., 'Shopify', 'Klaviyo')"
+        meta:
+          dimension:
+            type: string
+            category: "Source System"
+            
+      - name: integration_object
+        description: "Type of integration object"
+        meta:
+          dimension:
+            type: string
+            
+      - name: integration_category
+        description: "Original integration category from Klaviyo (raw value)"
+        meta:
+          dimension:
+            type: string
+            
+      - name: integration_category_simplified
+        description: "Simplified integration category (e.g., 'ecommerce', 'rewards')"
+        meta:
+          dimension:
+            type: string
+            category: "Source System"
+            
+      - name: metric_category
+        description: "Technical classification of metric (e.g., 'email', 'order', 'form')"
+        meta:
+          dimension:
+            type: string
+            
+      - name: metric_type
+        description: "Business-friendly classification of metric (e.g., 'Email', 'Order', 'Rewards')"
+        meta:
+          dimension:
+            type: string
+            category: "Event Type"
+            
+      - name: is_email_metric
+        description: "Whether this metric represents an email-related event (used for email attribution)"
+        meta:
+          dimension:
+            type: boolean
+            filter_group: "Email Tracking"
+            
+      - name: is_conversion_metric
+        description: "Whether this metric represents a conversion event (orders, form submissions)"
+        meta:
+          dimension:
+            type: boolean
+            filter_group: "Conversion Tracking"
+            
+      - name: channel_group
+        description: "High-level grouping of metrics by channel (Email Marketing, SMS Marketing, Conversion)"
+        meta:
+          dimension:
+            type: string
+            category: "Channel"
+            
+      - name: attributes_column_raw
+        description: "Raw JSON attributes from Klaviyo API (for debugging)"
+        meta:
+          dimension:
+            type: json
+            
+      - name: relationships_column_raw
+        description: "Raw JSON relationships from Klaviyo API (for debugging)"
+        meta:
+          dimension:
+            type: json

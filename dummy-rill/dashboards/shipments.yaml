@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: "Shipments Dashboard"
+metrics_view: prod_fact_shipments_model_metrics
+
+dimensions: '*'
+measures: '*'

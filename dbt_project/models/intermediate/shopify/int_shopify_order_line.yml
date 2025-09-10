@@ -1,0 +1,198 @@
+models:
+  - name: int_shopify_order_line
+    columns:
+      - name: app_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_created_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: order_line_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: product_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: variant_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_line_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: sku
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: fulfillment_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: item_quantity
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: grams
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: fulfillable_quantity
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: pre_tax_price
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: price
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_discount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: tax_amount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: tax_rate
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: tax_sku
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: weight
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: weight_unit
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_refunded
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: quantity_refunded
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: refund_subtotal
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: refund_tax
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: product_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: product_weight_pounds
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: packout_units
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: unit_product_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unit_shipping_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unit_box_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unit_pick_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unit_platform_fees
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_product_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_shipping_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_box_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_pick_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_platform_fees
+        description: ""
+        meta:
+          dimension:
+            type: number

@@ -1,0 +1,1 @@
+select * from prod_fact_shipments

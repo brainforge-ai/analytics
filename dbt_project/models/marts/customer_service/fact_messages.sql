@@ -1,0 +1,35 @@
+-- dbt_project\models\marts\customer_service\fact_messages.sql
+
+SELECT 
+    MESSAGES_ID,
+    ACTIONS,
+    ATTACHMENTS,
+    BODY_HTML,
+    BODY_TEXT,
+    CHANNEL,
+    CREATED_DATETIME,
+    EXTERNAL_ID,
+    FAILED_DATETIME,
+    IS_FROM_AGENT,
+    INTEGRATION_ID,
+    INTENTS,
+    IS_RETRIABLE,
+    LAST_SENDING_ERROR,
+    MACRO_ID,  -- Already exploded in raw_gorgias_messages_macros
+    MESSAGE_ID,
+    OPENED_DATETIME,
+    IS_PUBLIC,
+    RECEIVER,
+    RULE_ID,
+    SENDER,
+    SENT_DATETIME,
+    SOURCE,
+    STRIPPED_HTML,
+    STRIPPED_SIGNATURE,
+    STRIPPED_TEXT,
+    SUBJECT,
+    TICKET_ID,
+    URI,
+    VIA,
+    AGENT_ID
+FROM {{ ref('int_message_macro_agent') }}

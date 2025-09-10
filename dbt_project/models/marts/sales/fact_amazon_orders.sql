@@ -1,0 +1,63 @@
+SELECT
+        o.app_source,
+        AMAZON_ORDER_ID AS order_id,
+ 
+        customer_id AS customer_id, 
+        CREATED_DATE AS created_at, 
+        UPDATED_DATE as updated_at,
+        AMAZON_ORDER_ID AS order_name,
+        CURRENCY_CODE AS currency,
+        ORDER_STATUS as financial_status, 
+        FULFILLMENT_CHANNEL as fulfillment_status,
+        TOTAL_ITEM_PRICE_AMOUNT as subtotal_price,
+        total_tax,
+        ORDER_TOTAL_AMOUNT as total_price,
+        TOTAL_ITEM_PRICE_AMOUNT as total_line_items_price,
+        total_discounts,
+        ORDER_TOTAL_AMOUNT as current_total_price,
+        total_discounts as current_total_discounts,
+        TOTAL_ITEM_PRICE_AMOUNT as current_subtotal_price,
+        total_tax as current_total_tax,
+
+        null as fee_amount,
+        cast(null as date) as refund_created_at,
+        cast(null as date) as refund_processed_at,
+        null as refund_amount,
+        null as refund_code,
+        null as refund_reason,
+        SHIPPING_PRICE_AMOUNT as shipping_price,
+        shipping_discounted_price,
+        SHIP_SERVICE_LEVEL as shipping_code,
+        
+        shipping_address_address_line_1,
+        shipping_address_address_line_2,
+        SHIPPING_ADDRESS_CITY,
+        SHIPPING_ADDRESS_COUNTRY_CODE as shipping_address_country,
+        SHIPPING_ADDRESS_COUNTRY_CODE,
+        SHIPPING_ADDRESS_STATE_OR_REGION as shipping_address_province,
+        SHIPPING_ADDRESS_POSTAL_CODE as shipping_address_province_code,
+        null as shipping_address_latitude,
+        null as shipping_address_longitude,
+        SHIPPING_ADDRESS_POSTAL_CODE as shipping_address_postal_code,
+
+        CUSTOMER_ORDER_NUMBER,
+        is_returning_customer,
+        false as is_tiktok_shop,
+        false as is_klaviyo,
+        false as is_snapchat,
+        -- cogs
+        aoc.cogs_product_cost,
+        aoc.cogs_product_weight_pounds,
+        aoc.cogs_product_weight_pounds_rounded,
+        aoc.cogs_packout_units,
+        aoc.order_shipping_cost,
+        aoc.order_box_cost,
+        aoc.order_pick_cost,
+        aoc.fbamzn_fees_cogs as cogs_amzn_platform_fees,
+        null as cogs_shopify_platform_fees,
+        aoc.fbamzn_fees_cogs as cogs_platform_fees,
+        null as shopify_merchant_fees
+
+    FROM {{ ref('int_amazon_order') }} o
+    left join {{ref('int_amazon_order_cogs')}} aoc
+        on o.AMAZON_ORDER_ID = aoc.order_id

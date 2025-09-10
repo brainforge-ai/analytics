@@ -1,0 +1,148 @@
+models:
+  - name: int_amazon_order_line
+    columns:
+      - name: order_created_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: amazon_order_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_item_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: asin_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: seller_sku
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_title
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: quantity_ordered
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: quantity_shipped
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: item_price_amount
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_price_amount
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_discount_tax_amount
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: item_tax_amount
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: promotion_discount_amount
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: promotion_discount_tax_amount
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_tax_amount
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_discount_amount
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: sku_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: product_weight_pounds
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: packout_units
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: unit_shipping_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unit_box_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unit_pick_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unit_platform_fees
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_shipping_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_box_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_pick_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_platform_fees
+        description: ""
+        meta:
+          dimension:
+            type: number

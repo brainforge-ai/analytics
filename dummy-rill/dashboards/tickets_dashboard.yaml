@@ -1,0 +1,70 @@
+type: metrics_view
+
+title: Tickets Dashboard
+model: prod_fact_tickets_model
+timeseries: ticket_created_datetime
+
+dimensions:
+  - label: Ticket ID
+    column: ticket_id
+
+  - label: Ticket Status
+    column: STATUS
+    name: status
+    display_name: Ticket Status
+
+  - label: Ticket Channel
+    column: CHANNEL
+    name: channel
+    display_name: Ticket Channel
+
+  - label: Ticket Subject
+    column: SUBJECT
+    name: subject
+    display_name: Ticket Subject
+
+  - label: Ticket URI
+    column: ticket_uri
+
+  - label: Ticket Reason
+    column: ticket_reason
+
+  - label: Ticket Action
+    column: ticket_action
+
+  - label: Refund Performed
+    column: refund_performed
+
+  - label: Customer Name
+    column: customer_name
+
+  - label: Customer Email
+    column: customer_email
+
+  - label: Reopened Flag
+    column: reopened_flag
+
+  - label: Ticket Opened Date
+    expression: ticket_created_datetime::date
+
+  - label: Ticket Closed Date
+    expression: ticket_closed_datetime::date
+
+measures:
+  - label: Total Tickets
+    expression: COUNT(DISTINCT ticket_id)
+    format_preset: humanize
+    valid_percent_of_total: true
+
+  - label: Average Time To Resolution (Hours)
+    expression: "AVG(time_to_resolution_seconds) / 3600"
+    format_preset: humanize
+
+  - label: Average First Response Time (Minutes)
+    expression: "AVG(first_response_time_seconds) / 60"
+    format_preset: humanize
+
+  - label: Reopened Tickets
+    expression: "SUM(CASE WHEN reopened_flag THEN 1 ELSE 0 END)"
+    format_preset: humanize
+    valid_percent_of_total: true

@@ -1,0 +1,68 @@
+models:
+  - name: dim_klaviyo_segments
+    description: "Dimension table for Klaviyo segments containing dynamic profile groupings"
+    columns:
+      - name: segment_id
+        description: "Unique identifier for the segment (maps to Klaviyo's ID field)"
+        meta:
+          dimension:
+            type: string
+
+      - name: segment_name
+        description: "Name of the segment"
+        meta:
+          dimension:
+            type: string
+
+      - name: created_at
+        description: "Timestamp when the segment was first created"
+        meta:
+          dimension:
+            type: timestamp
+
+      - name: updated_at
+        description: "Last time the segment definition was modified"
+        meta:
+          dimension:
+            type: timestamp
+
+      - name: is_active
+        description: "Whether the segment is currently active (true/false)"
+        meta:
+          dimension:
+            type: boolean
+
+      - name: is_starred
+        description: "Whether the segment has been starred (favorited) by the user"
+        meta:
+          dimension:
+            type: boolean
+
+      - name: condition_groups_raw
+        description: |
+          Raw JSON containing the segment's definition rules from Klaviyo's API.
+          Reference: https://developers.klaviyo.com/en/reference/segments_api_overview
+        meta:
+          dimension:
+            type: variant
+
+      - name: condition_group_count
+        description: |
+          The number of condition groups in the segment, representing the complexity of the segment's logic.
+        meta:
+          dimension:
+            type: integer
+
+      - name: has_purchase_conditions
+        description: |
+          Flag indicating whether the segment contains conditions related to purchase behavior (e.g., profile-metric or purchase-based conditions).
+        meta:
+          dimension:
+            type: boolean
+
+      - name: has_geo_filters
+        description: |
+          Flag indicating whether the segment contains geographic filters, such as `city` or `region`.
+        meta:
+          dimension:
+            type: boolean

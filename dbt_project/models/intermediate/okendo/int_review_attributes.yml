@@ -1,0 +1,68 @@
+models:
+  - name: int_review_attributes
+    columns:
+      - name: review_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_speed_rating
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: shipping_rating
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: caffeine_amount_rating
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: convenience_rating
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: taste_rating
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: value_for_money_rating
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: flavor_profile_rating
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: easy_to_use_rating
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: use_dummyclient_everyday
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_taste_feedback
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: dummyclient_usage_frequency
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_feedback
+        description: ""
+        meta:
+          dimension:
+            type: string

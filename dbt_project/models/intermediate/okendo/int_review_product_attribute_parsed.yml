@@ -1,0 +1,28 @@
+models:
+  - name: int_review_product_attribute_parsed
+    columns:
+      - name: review_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: use_dummyclient_everyday
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_taste_feedback
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: dummyclient_usage_frequency
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_feedback
+        description: ""
+        meta:
+          dimension:
+            type: string

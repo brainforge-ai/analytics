@@ -1,0 +1,29 @@
+WITH DATA AS (
+    SELECT
+        REVIEWID AS REVIEW_ID,
+        VALUE:TITLE::string AS TITLE,
+        VALUE:VALUE::float AS VALUE
+    FROM {{ source('portable_okendo','reviews') }},
+        LATERAL FLATTEN(input => ATTRIBUTESWITHRATING)
+    WHERE ATTRIBUTESWITHRATING != 'null'
+)
+
+SELECT
+    REVIEW_ID,
+    MAX(CASE WHEN LOWER(TITLE) = 'shipping speed' THEN VALUE::float END)
+        AS SHIPPING_SPEED_RATING,
+    MAX(CASE WHEN LOWER(TITLE) = 'shipping' THEN VALUE::float END)
+        AS SHIPPING_RATING,
+    MAX(CASE WHEN LOWER(TITLE) = 'caffeine amount' THEN VALUE::float END)
+        AS CAFFEINE_AMOUNT_RATING,
+    MAX(CASE WHEN LOWER(TITLE) = 'convenience' THEN VALUE::float END)
+        AS CONVENIENCE_RATING,
+    MAX(CASE WHEN LOWER(TITLE) = 'taste' THEN VALUE::float END) AS TASTE_RATING,
+    MAX(CASE WHEN LOWER(TITLE) = 'value for money' THEN VALUE::float END)
+        AS VALUE_FOR_MONEY_RATING,
+    MAX(CASE WHEN LOWER(TITLE) = 'flavor profile' THEN VALUE::float END)
+        AS FLAVOR_PROFILE_RATING,
+    MAX(CASE WHEN LOWER(TITLE) = 'easy to use' THEN VALUE::float END)
+        AS EASY_TO_USE_RATING
+FROM DATA
+GROUP BY REVIEW_ID

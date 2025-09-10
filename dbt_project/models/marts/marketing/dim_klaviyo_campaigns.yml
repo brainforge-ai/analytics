@@ -1,0 +1,97 @@
+models:
+  - name: dim_klaviyo_campaigns
+    description: "dimension table for all Klaviyo campaigns"
+    columns:
+      - name: campaign_id
+        description: "Primary identifier for the campaign (maps to Klaviyo's ID field)"
+        meta:
+          dimension:
+            type: string
+
+      - name: campaign_name
+        description: "Name of the campaign"
+        meta:
+          dimension:
+            type: string
+
+      - name: send_time
+        description: "When the campaign was sent in UTC"
+        meta:
+          dimension:
+            type: timestamp
+
+      - name: created_at
+        description: "Timestamp when campaign was created"
+        meta:
+          dimension:
+            type: timestamp
+
+      - name: updated_at
+        description: "Last modification timestamp"
+        meta:
+          dimension:
+            type: timestamp
+
+      - name: campaign_status
+        description: "Klaviyo status: 'Draft', 'Sent', 'Canceled', or 'Scheduled'"
+        meta:
+          dimension:
+            type: string
+
+      - name: is_archived
+        description: "Whether campaign is archived in Klaviyo (true/false)"
+        meta:
+          dimension:
+            type: boolean
+
+      - name: included_segment_ids
+        description: |
+          Array of segment IDs that will receive this campaign.
+          Required field in API - campaigns must target either included segments/lists or 
+          all non-excluded profiles when empty.
+        meta:
+          dimension:
+            type: array<string>
+
+      - name: excluded_segment_ids
+        description: |
+          Array of segment IDs explicitly excluded from this campaign.
+          When included_segment_ids is empty and excluded_segment_ids is populated,
+          campaign will send to all profiles except those in excluded segments.
+        meta:
+          dimension:
+            type: array<string>
+
+      - name: is_add_utm
+        description: "Indicates if the campaign needs UTM parameters (shared by email/SMS)"
+        meta:
+          dimension:
+            type: boolean
+      
+      - name: utm_params
+        description: "Array of custom UTM parameters. If is_add_utm = True and utm_params is empty, then it uses company defaults"
+        meta:
+          dimension:
+            type: array<object>
+      
+      - name: tracks_clicks
+        description: |
+          Whether click tracking is enabled for this campaign (from tracking_options.is_tracking_clicks).
+          For email campaigns only - defaults to true if not specified.
+        meta:
+          dimension:
+            type: boolean
+
+      - name: tracks_opens
+        description: |
+          Whether open tracking is enabled (from tracking_options.is_tracking_opens).
+          For email campaigns only - defaults to true if not specified.
+        meta:
+          dimension:
+            type: boolean
+
+      - name: campaign_message_ids
+        description: "Array of message IDs associated with this campaign"
+        meta:
+          dimension:
+            type: array<string>

@@ -1,0 +1,440 @@
+type: metrics_view
+
+title: Daily KPIs
+model: prod_daily_kpi_agg_model
+timeseries: DATE_DAY
+
+dimensions:
+  - label: Day
+    column: DAY_NAME
+    description: ""
+  - label: "Week"
+    expression: "EXTRACT(WEEK FROM DATE_DAY)"
+    description: ""
+  - label: "Month"
+    expression: "EXTRACT(MONTH FROM DATE_DAY)"
+    description: ""
+  - label: "Year"
+    expression: "EXTRACT(YEAR FROM DATE_DAY)"  
+    description: ""
+  - label: "Quarter"
+    expression: "EXTRACT(QUARTER FROM DATE_DAY)"  
+    description: ""  
+  - label: "App Source"
+    column: app_source
+    description: ""  
+    
+measures:
+  - name: TOTAL_ORDERS
+    label: Total Orders
+    expression: SUM(total_orders)
+    description: ""
+    format_preset: humanize
+    valid_percent_of_total: true  
+  - name: TOTAL_NEW_SUBS_ORDERS
+    label: Total New Subs Orders
+    expression: SUM(new_subs_orders)
+    description: ""
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: TOTAL_NEW_NON_SUBS_ORDERS
+    label: Total Non Subs Orders
+    expression: SUM(new_non_subs_orders)
+    description: ""
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: TOTAL_SUBS_ORDERS
+    label: Total Subs Orders
+    expression: SUM(total_subs_orders)
+    description: ""
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: TOTAL_RETURN_SUBS_ORDERS
+    label: Total Return Subs Orders
+    expression: SUM(return_subs_orders)
+    description: ""
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: TOTAL_RETURN_NON_SUBS_ORDERS
+    label: Total Return Non Subs Orders
+    expression: SUM(return_non_subs_orders)
+    description: ""
+    format_preset: humanize
+    valid_percent_of_total: true    
+  - name: TOTAL_RETURN_ORDERS
+    label: Total Return Orders
+    expression: SUM(total_return_orders)
+    description: ""
+    format_preset: humanize
+    valid_percent_of_total: true   
+
+  - name: TOTAL_GROSS_SALES
+    label: Total Gross Sales
+    expression: SUM(total_gross_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_SUBS_GROSS_SALES
+    label: New Subs Gross Sales
+    expression: SUM(new_subs_gross_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_NON_SUBS_GROSS_SALES
+    label: Non Subs GrossSales
+    expression: SUM(new_non_subs_gross_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_SUBS_GROSS_SALES
+    label: Total Subs Gross Sales
+    expression: SUM(total_subs_gross_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_SUB_GROSS_SALES
+    label: Return Subs Gross Sales
+    expression: SUM(return_subs_gross_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_NON_SUB_GROSS_SALES
+    label: Return Non Subs Gross Sales
+    expression: SUM(return_non_subs_gross_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true    
+  - name: TOTAL_RETURN_GROSS_SALES
+    label: Total Return Gross Sales
+    expression: SUM(total_return_gross_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+
+  - name: TOTAL_SHIPPING
+    label: Total Shipping
+    expression: SUM(total_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_SUBS_SHIPPING
+    label: New Subs Shipping
+    expression: SUM(new_subs_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_NON_SUBS_SHIPPING
+    label: New Non Subs Shipping
+    expression: SUM(new_non_subs_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_SUBS_SHIPPING
+    label: Total Subs Shipping
+    expression: SUM(total_subs_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_SUB_SHIPPING
+    label: Return Subs Shipping
+    expression: SUM(return_subs_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_NON_SUB_SHIPPING
+    label: Return Non Subs Shipping
+    expression: SUM(return_non_subs_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_RETURN_SHIPPING
+    label: Total Return Shipping
+    expression: SUM(total_return_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+
+  - name: TOTAL_DISCOUNTS
+    label: Total Discounts
+    expression: SUM(total_discounts)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_SUBS_DISCOUNTS
+    label: New Subs Discounts
+    expression: SUM(new_subs_discounts)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_NON_SUBS_DISCOUNTS
+    label: New Non Subs Discounts
+    expression: SUM(new_non_subs_discounts)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_SUBS_DISCOUNTS
+    label: Total Subs Discounts
+    expression: SUM(total_subs_discounts)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_SUBS_DISCOUNTS
+    label: Return Subs Discounts
+    expression: SUM(return_subs_discounts)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_NON_SUBS_DISCOUNTS
+    label: Return Non Subs Discounts
+    expression: SUM(return_non_subs_discounts)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_RETURN_DISCOUNTS
+    label: Total Return Discounts
+    expression: SUM(total_return_discounts)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+
+  - name: TOTAL_NET_SALES
+    label: Total Net Sales
+    expression: SUM(total_net_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_SUBS_NET_SALES
+    label: New Subs Net Sales
+    expression: SUM(new_subs_net_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_NON_SUBS_NET_SALES
+    label: New Non Subs Net Sales
+    expression: SUM(new_non_subs_net_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_SUBS_NET_SALES
+    label: Total Subs Net Sales
+    expression: SUM(total_subs_net_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_SUBS_NET_SALES
+    label: Return Subs Net Sales
+    expression: SUM(return_subs_net_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_NON_SUBS_NET_SALES
+    label: Return Non Subs Net Sales
+    expression: SUM(return_non_subs_net_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_RETURN_NET_SALES
+    label: Total Return Net Sales
+    expression: SUM(total_return_net_sales)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+
+  # Net Sales (including shipping)
+  - name: TOTAL_NET_SALES_WITH_SHIPPING
+    label: Total Net Sales With Shipping
+    expression: SUM(total_net_sales_with_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_SUBS_NET_SALES_WITH_SHIPPING
+    label: New Subs Net Sales With Shipping
+    expression: SUM(new_subs_net_sales_with_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_NON_SUBS_NET_SALES_WITH_SHIPPING
+    label: New Non Subs Net Sales With Shipping
+    expression: SUM(new_non_subs_net_sales_with_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_SUBS_NET_SALES_WITH_SHIPPING
+    label: Total Subs Net Sales With Shipping
+    expression: SUM(total_subs_net_sales_with_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_SUBS_NET_SALES_WITH_SHIPPING
+    label: Return Subs Net Sales With Shipping
+    expression: SUM(return_subs_net_sales_with_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_NON_SUBS_NET_SALES_WITH_SHIPPING
+    label: Return Non Subs Net Sales With Shipping
+    expression: SUM(return_non_subs_net_sales_with_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_RETURN_NET_SALES_WITH_SHIPPING
+    label: Total Return Net Sales With Shipping
+    expression: SUM(total_return_net_sales_with_shipping)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+
+  # Gross AOV
+  - name: TOTAL_GROSS_AOV
+    label: Total Gross AOV
+    expression: SUM(total_gross_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: NEW_SUBS_GROSS_AOV
+    label: New Subs Gross AOV
+    expression: SUM(new_subs_gross_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: NEW_NON_SUBS_GROSS_AOV
+    label: New Non Subs Gross AOV
+    expression: SUM(new_non_subs_gross_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: TOTAL_SUBS_GROSS_AOV
+    label: Total Subs Gross AOV
+    expression: SUM(total_subs_gross_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: RETURN_SUBS_GROSS_AOV
+    label: Return Subs Gross AOV
+    expression: SUM(return_subs_gross_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: RETURN_NON_SUBS_GROSS_AOV
+    label: Return Non Subs Gross AOV
+    expression: SUM(return_non_subs_gross_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: TOTAL_RETURN_GROSS_AOV
+    label: Total Return Gross AOV
+    expression: SUM(total_return_gross_aov)
+    description: ""
+    format_preset: currency_usd
+
+  # Net AOV (excluding shipping)
+  - name: TOTAL_NET_AOV
+    label: Total Net AOV
+    expression: SUM(total_net_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: NEW_SUBS_NET_AOV
+    label: New Subs Net AOV
+    expression: SUM(new_subs_net_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: NEW_NON_SUBS_NET_AOV
+    label: New Non Subs Net AOV
+    expression: SUM(new_non_subs_net_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: TOTAL_SUBS_NET_AOV
+    label: Total Subs Net AOV
+    expression: SUM(total_subs_net_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: RETURN_SUBS_NET_AOV
+    label: Return Subs Net AOV
+    expression: SUM(return_subs_net_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: RETURN_NON_SUBS_NET_AOV
+    label: Return Non Subs Net AOV
+    expression: SUM(return_non_subs_net_aov)
+    description: ""
+    format_preset: currency_usd
+  - name: TOTAL_RETURN_NET_AOV
+    label: Total Return Net AOV
+    expression: SUM(total_return_net_aov)
+    description: ""
+    format_preset: currency_usd
+
+  # Net AOV (including shipping)
+  - name: TOTAL_NET_AOV_WITH_SHIPPING
+    label: Total Net AOV With Shipping
+    expression: SUM(total_net_aov_with_shipping)
+    description: ""
+    format_preset: currency_usd
+  - name: NEW_SUBS_NET_AOV_WITH_SHIPPING
+    label: New Subs Net AOV With Shipping
+    expression: SUM(new_subs_net_aov_with_shipping)
+    description: ""
+    format_preset: currency_usd
+  - name: NEW_NON_SUBS_NET_AOV_WITH_SHIPPING
+    label: New Non Subs Net AOV With Shipping
+    expression: SUM(new_non_subs_net_aov_with_shipping)
+    description: ""
+    format_preset: currency_usd
+  - name: TOTAL_SUBS_NET_AOV_WITH_SHIPPING
+    label: Total Subs Net AOV With Shipping
+    expression: SUM(total_subs_net_aov_with_shipping)
+    description: ""
+    format_preset: currency_usd
+  - name: RETURN_SUBS_NET_AOV_WITH_SHIPPING
+    label: Return Subs Net AOV With Shipping
+    expression: SUM(return_subs_net_aov_with_shipping)
+    description: ""
+    format_preset: currency_usd
+  - name: RETURN_NON_SUBS_NET_AOV_WITH_SHIPPING
+    label: Return Non Subs Net AOV With Shipping
+    expression: SUM(return_non_subs_net_aov_with_shipping)
+    description: ""
+    format_preset: currency_usd
+  - name: TOTAL_RETURN_NET_AOV_WITH_SHIPPING
+    label: Total Return Net AOV With Shipping
+    expression: SUM(total_return_net_aov_with_shipping)
+    description: ""
+    format_preset: currency_usd
+
+  # COGS
+  - name: TOTAL_COGS
+    label: Total COGS
+    expression: SUM(total_cogs)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_SUBS_COGS
+    label: New Subs COGS
+    expression: SUM(new_subs_cogs)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: NEW_NON_SUBS_COGS
+    label: New Non Subs COGS
+    expression: SUM(new_non_subs_cogs)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_SUBS_COGS
+    label: Total Subs COGS
+    expression: SUM(total_subs_cogs)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_SUBS_COGS
+    label: Return Subs COGS
+    expression: SUM(return_subs_cogs)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: RETURN_NON_SUBS_COGS
+    label: Return Non Subs COGS
+    expression: SUM(return_non_subs_cogs)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true
+  - name: TOTAL_RETURN_COGS
+    label: Total Return COGS
+    expression: SUM(total_return_cogs)
+    description: ""
+    format_preset: currency_usd
+    valid_percent_of_total: true

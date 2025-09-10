@@ -1,0 +1,97 @@
+version: 1
+type: metrics_view
+
+display_name: Product Fact Shipments Model Metrics
+model: prod_fact_shipments_model
+timeseries: SHIPPED_AT
+
+dimensions:
+  - 
+    display_name: Fulfillment Id
+    column: FULFILLMENT_ID
+  - 
+    display_name: Order Id
+    column: ORDER_ID
+  - 
+    display_name: Tracking Number
+    column: TRACKING_NUMBER
+  - 
+    display_name: Shipping Carrier
+    column: SHIPPING_CARRIER
+  - 
+    display_name: Shipment Status
+    column: SHIPMENT_STATUS
+  - 
+    display_name: App Source
+    column: APP_SOURCE
+  - 
+    display_name: Shipping Address City
+    column: SHIPPING_ADDRESS_CITY
+  - 
+    display_name: Shipping Address Country Code
+    column: SHIPPING_ADDRESS_COUNTRY_CODE
+  - 
+    display_name: Shipping Address Province Code
+    column: SHIPPING_ADDRESS_PROVINCE_CODE
+
+measures:
+  - name: total_shipments_measure
+    
+    display_name: Total Shipments
+    expression: COUNT(FULFILLMENT_ID)
+    description: Total number of shipments processed.
+    format_preset: humanize
+  - name: total_shipped_quantity_measure
+    
+    display_name: Total Shipped Quantity
+    expression: SUM(SHIPPED_QUANTITY)
+    description: Total quantity of items shipped.
+    format_preset: humanize
+  - name: average_shipped_quantity_measure
+    
+    display_name: Average Shipped Quantity
+    expression: AVG(SHIPPED_QUANTITY)
+    description: Average quantity of items shipped per shipment.
+    format_preset: humanize
+  - name: total_shipping_revenue_measure
+    
+    display_name: Total Shipping Revenue
+    expression: SUM(SHIPPING_PRICE)
+    description: Total revenue generated from shipping.
+    format_preset: humanize
+  - name: average_shipping_price_measure
+    
+    display_name: Average Shipping Price
+    expression: AVG(SHIPPING_PRICE)
+    description: Average price charged for shipping per shipment.
+    format_preset: humanize
+  - name: total_shipping_discount_measure
+    
+    display_name: Total Shipping Discount
+    expression: SUM(SHIPPING_PRICE - SHIPPING_DISCOUNTED_PRICE)
+    description: Total discount given on shipping prices.
+    format_preset: humanize
+  - name: average_shipping_discount_measure
+    
+    display_name: Average Shipping Discount
+    expression: AVG(SHIPPING_PRICE - SHIPPING_DISCOUNTED_PRICE)
+    description: Average discount given on shipping prices per shipment.
+    format_preset: humanize
+  - name: max_shipping_price_measure
+    
+    display_name: Maximum Shipping Price
+    expression: MAX(SHIPPING_PRICE)
+    description: Maximum price charged for a single shipment.
+    format_preset: humanize
+  - name: min_shipping_price_measure
+    
+    display_name: Minimum Shipping Price
+    expression: MIN(SHIPPING_PRICE)
+    description: Minimum price charged for a single shipment.
+    format_preset: humanize
+  - name: unique_shipping_carriers_measure
+    
+    display_name: Unique Shipping Carriers
+    expression: COUNT(DISTINCT SHIPPING_CARRIER)
+    description: Number of unique shipping carriers used.
+    format_preset: humanize

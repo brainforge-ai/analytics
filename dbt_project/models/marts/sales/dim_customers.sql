@@ -1,0 +1,161 @@
+
+WITH tiktok_customer_id AS (
+
+    SELECT
+        distinct
+        o.customer_id::string as customer_id,
+        first_value(REPLACE(VALUE,'TikTokOrderID:','') ) over (partition by o.customer_id order by o.created_at desc) as TIKTOK_ORDER_ID
+    FROM {{ source('shopify_raw','order_tag')}} ot
+    left join "RAW"."SHOPIFY"."ORDER" o
+        on o.id = ot.order_id
+    where left(value,14) IN ('TikTokOrderID:')
+
+    
+
+),
+
+shopify_customers AS (
+    SELECT 
+        distinct
+        c.customer_id::string as customer_id,
+        case when t.TIKTOK_ORDER_ID is not null then 'TikTok' else 'Shopify' end as platform_source,
+        c.email,
+        c.full_name,
+        c.phone,
+        c.address_1,
+        c.address_2,
+        c.city,
+        c.province as state,
+        c.province_code as state_code,
+        c.country,
+        c.country_code,
+        c.zip,
+        c.zip_cleaned,
+        c.full_address,
+        c.lifetime_orders,
+        c.customer_first_order_date::TIMESTAMP_NTZ as first_order_date,
+        c.customer_most_recent_order_date::TIMESTAMP_NTZ as latest_order_date,
+        c.past_subscriber_bool,
+        c.active_subscriber_bool,
+        c.total_spent,
+        c.email_marketing_sku,
+        c.email_marketing_level,
+        c.email_marketing_sub_date
+    FROM {{ ref('int_shopify_customer') }} c
+    left join tiktok_customer_id t
+        on c.customer_id = t.customer_id
+),
+
+amazon_customers AS (
+    SELECT 
+        customer_id::string as customer_id,
+        platform_source,
+        email,
+        full_name,
+        phone,
+        address_1,
+        address_2,
+        city,
+        state,
+        NULL as state_code,
+        NULL as country,
+        country_code,
+        zip,
+        zip as zip_cleaned,
+        address_1 || ' ' || COALESCE(address_2, '') || ', ' || city || ' ' || state || ', ' || zip as full_address,
+        lifetime_orders,
+        first_order_date::TIMESTAMP_NTZ,
+        most_recent_order_date::TIMESTAMP_NTZ as latest_order_date,
+        FALSE as past_subscriber_bool,
+        FALSE as active_subscriber_bool,
+        NULL as total_spent,
+        NULL as email_marketing_sku,
+        NULL as email_marketing_level,
+        NULL as email_marketing_sub_date
+    FROM {{ ref('int_amazon_customer') }}
+),
+
+-- Get subscription details from Shopify orders
+subscription_details AS (
+    SELECT 
+        customer_id::string as customer_id,
+        MAX(CASE WHEN is_subscription_order = TRUE THEN created_at END) as latest_subscription_start_date,
+        MAX(CASE WHEN is_subscription_order = TRUE AND cancelled_at IS NOT NULL THEN cancelled_at END) as latest_subscription_cancel_date,
+        COUNT(DISTINCT CASE WHEN is_subscription_order = TRUE THEN order_id END) as total_subscription_orders,
+        SUM(CASE WHEN is_subscription_recurring_order = TRUE THEN 1 ELSE 0 END) as total_recurring_orders
+    FROM {{ ref('int_shopify_order') }}
+    GROUP BY 1
+),
+
+-- Combine all customers
+combined_customers AS (
+    SELECT * FROM shopify_customers
+    UNION ALL
+    SELECT * FROM amazon_customers
+),
+
+final AS (
+    SELECT 
+        c.customer_id,
+        c.platform_source,
+        c.email,
+        c.full_name,
+        c.phone,
+        c.address_1,
+        c.address_2,
+        c.city,
+        c.state,
+        c.state_code,
+        c.country,
+        c.country_code,
+        c.zip,
+        c.zip_cleaned,
+        c.full_address,
+        c.lifetime_orders,
+        c.first_order_date,
+        c.latest_order_date,
+        c.past_subscriber_bool,
+        c.active_subscriber_bool,
+        c.total_spent,
+        c.email_marketing_sku,
+        c.email_marketing_level,
+        c.email_marketing_sub_date,
+        s.latest_subscription_start_date,
+        s.latest_subscription_cancel_date,
+        s.total_subscription_orders,
+        s.total_recurring_orders,
+        
+        -- In Recharge
+        case when rc.customer_id is not null then true else false end as is_recharge_customer,
+
+        -- Derived fields
+        DATEDIFF('day', c.first_order_date, c.latest_order_date) as customer_lifetime_days,
+        CASE 
+            WHEN c.active_subscriber_bool = TRUE THEN 'ACTIVE'
+            WHEN c.past_subscriber_bool = TRUE THEN 'CHURNED'
+            WHEN s.total_subscription_orders > 0 THEN 'CHURNED'
+            ELSE 'NEVER_SUBSCRIBED'
+        END as subscription_status,
+        
+        -- Customer value metrics
+        COALESCE(c.total_spent, 0) / NULLIF(c.lifetime_orders, 0) as avg_order_value,
+        CASE 
+            WHEN c.latest_order_date >= DATEADD('day', -365, CURRENT_DATE) THEN TRUE 
+            ELSE FALSE 
+        END as is_active_last_12m,
+        
+        -- Additional flags
+        CASE 
+            WHEN c.lifetime_orders > 1 THEN TRUE 
+            ELSE FALSE 
+        END as is_repeat_customer,
+        
+        
+    FROM combined_customers c
+    LEFT JOIN subscription_details s
+        ON s.customer_id = c.customer_id
+    left join {{ref('dim_recharge_customers')}} rc
+        on c.email = rc.email
+)
+
+SELECT * from final

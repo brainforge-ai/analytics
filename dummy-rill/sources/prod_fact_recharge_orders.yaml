@@ -1,0 +1,2 @@
+type: "snowflake"
+sql: "select * from PROD_MARTS.MARTS.FACT_RECHARGE_ORDERS"

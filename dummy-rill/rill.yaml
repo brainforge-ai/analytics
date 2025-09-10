@@ -1,0 +1,35 @@
+title: "dummyclient"
+
+# These are example mock users to test your security policies.
+# For more information, see the documentation: https://docs.rilldata.com/develop/security
+
+mock_users:
+- email: example@brainforge.ai
+  groups: 
+    - brainforge
+
+sources:
+  refresh:
+    every: 24h
+
+dashboards:
+  default_time_range: P3M
+  available_time_zones:
+    - America/Los_Angeles
+    - America/Chicago
+    - America/New_York
+  available_time_ranges:
+    - P7D
+    - P14D
+    - P4W
+    - P3M
+    - P12M
+    - P24M
+    - rill-WTD
+    - rill-MTD
+
+vars:
+  snowflake_database: "PROD_MARTS"
+
+features:
+  - canvasDashboards

@@ -1,0 +1,95 @@
+# Dashboard YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+type: metrics_view
+
+title: Shopify Orders Metrics
+model: prod_shopify_orders_model
+timeseries: CREATED_AT
+
+dimensions:
+  - label: Customer Type
+    column: CUSTOMER_TYPE
+  - label: Is Subscription Order
+    column: IS_SUBSCRIPTION_ORDER
+  - label: Financial Status
+    column: FINANCIAL_STATUS
+  - label: Fulfillment Status
+    column: FULFILLMENT_STATUS
+  - label: Shipping Address City
+    column: SHIPPING_ADDRESS_CITY
+  - label: Shipping Address Country
+    column: SHIPPING_ADDRESS_COUNTRY
+  - label: Shipping Address Country Code
+    column: SHIPPING_ADDRESS_COUNTRY_CODE
+  - label: Shipping Address Province
+    column: SHIPPING_ADDRESS_PROVINCE
+  - label: Shipping Address Province Code
+    column: SHIPPING_ADDRESS_PROVINCE_CODE
+
+measures:
+  - name: total_orders
+    label: Total Orders
+    expression: COUNT(ORDER_ID)
+    description: The total number of orders placed.
+  - name: total_customers
+    label: Total Customers
+    expression: COUNT(DISTINCT CUSTOMER_ID)
+    description: The total number of unique customers who placed orders.
+  - name: gross_sales
+    label: Gross Sales
+    expression: SUM(TOTAL_LINE_ITEMS_PRICE)
+    description: The total revenue generated from all orders.
+  - name: total_shipping_cost
+    label: Total Shipping Cost
+    expression: SUM(SHIPPING_DISCOUNTED_PRICE)
+    description: The total cost of shipping for all orders.
+  - name: average_shipping_cost_per_order
+    label: Average Shipping Cost Per Order
+    expression: AVG(SHIPPING_DISCOUNTED_PRICE)
+    description: The average shipping cost per order.
+  - name: discounts_pct_gross
+    label: Discounts (As % of Gross)
+    expression: SUM(TOTAL_DISCOUNTS) /SUM(TOTAL_LINE_ITEMS_PRICE)
+    description: The % of Gross Sales removed by discounts.
+  - name: total_discounts
+    label: Total Discounts
+    expression: SUM(TOTAL_DISCOUNTS)
+    description: The total amount of discounts applied to all orders.
+  - name: average_discount_per_order
+    label: Average Discount Per Order
+    expression: AVG(TOTAL_DISCOUNTS)
+    description: The average discount applied per order.
+  - name: returns_pct_gross
+    label: Returns (As % of Sales) [PENDING]
+    expression: SUM(REFUND_AMOUNT) / SUM(TOTAL_LINE_ITEMS_PRICE)
+    description: The % of gross sales that are refunded.
+  - name: net_sales_excl_shipping
+    label: Net Sales (Excl. Shipping)
+    expression: SUM(TOTAL_LINE_ITEMS_PRICE) - SUM(TOTAL_DISCOUNTS) + SUM(REFUND_AMOUNT)
+    description: Net sales excluding shipping costs.
+
+  - name: net_sales_with_shipping
+    label: Net Sales (With Shipping)
+    expression: SUM(TOTAL_LINE_ITEMS_PRICE) - SUM(TOTAL_DISCOUNTS) +
+      SUM(REFUND_AMOUNT) + SUM(SHIPPING_DISCOUNTED_PRICE)
+    description: Net sales including shipping costs.
+
+  - name: gross_aov
+    label: Gross Average Order Value (AOV)
+    expression: SUM(TOTAL_LINE_ITEMS_PRICE) / COUNT(DISTINCT ORDER_ID)
+    description: Average order value based on gross sales.
+
+  - name: net_aov_excl_shipping
+    label: Net Average Order Value (Excl. Shipping)
+    expression: (SUM(TOTAL_LINE_ITEMS_PRICE) - SUM(TOTAL_DISCOUNTS) +
+      SUM(REFUND_AMOUNT)) / COUNT(DISTINCT ORDER_ID)
+    description: Average order value for net sales excluding shipping costs.
+
+  - name: net_aov_with_shipping
+    label: Net Average Order Value (With Shipping)
+    expression: (SUM(TOTAL_LINE_ITEMS_PRICE) - SUM(TOTAL_DISCOUNTS) +
+      SUM(REFUND_AMOUNT) + SUM(SHIPPING_DISCOUNTED_PRICE)) / COUNT(DISTINCT
+      ORDER_ID)
+    description: Average order value for net sales including shipping costs.

@@ -1,0 +1,43 @@
+models:
+  - name: int_shopify_order_refunds
+    columns:
+      - name: order_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: refund_note
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: refund_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: refund_reason
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: is_returned
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: refund_amount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: refund_created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: refund_processed_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

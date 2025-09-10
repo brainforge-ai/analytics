@@ -1,0 +1,338 @@
+models:
+  - name: int_shopify_order
+    columns:
+      - name: app_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_number
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: tiktok_order_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_quantity
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: processed_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: closed_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: cancelled_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: cancel_reason
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: currency
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: financial_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: fulfillment_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: subtotal_price
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: total_tax
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: total_price
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: total_line_items_price
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: total_product_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_discounts
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: discount_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: current_total_price
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: current_total_discounts
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: current_subtotal_price
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: current_total_tax
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: fee_amount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: refund_amount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: refund_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: refund_reason
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: refund_created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: refund_processed_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: is_returned
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: shipping_price
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: shipping_discounted_price
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: shipping_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address1
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address2
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_city
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_country
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_country_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_province_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shipping_address_latitude
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: shipping_address_longitude
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: shipping_address_zip
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: customer_order_number
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: total_weight
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: source_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: payment_gateway_names
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: offer
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: offer_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: sale_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: is_refunded
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: is_subscription_recurring_order
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: is_subscription_order
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: is_renewal_order
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: is_reactivation_order
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: first_time_customer_order
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: subscription_first_order
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: is_tiktok_shop
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: is_klaviyo
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: is_snapchat
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: product_names
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: is_recharge_order
+        description: ""
+        meta:
+          dimension:
+            type: boolean

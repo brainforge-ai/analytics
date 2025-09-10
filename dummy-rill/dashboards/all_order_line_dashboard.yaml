@@ -1,0 +1,100 @@
+# Dashboard YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+type: metrics_view
+
+title: Order Line Metrics
+model: prod_fact_order_line_model
+timeseries: ORDER_CREATED_DATE
+
+dimensions:
+  - label: App Source
+    column: APP_SOURCE
+
+  - label: Fulfillment Status
+    column: FULFILLMENT_STATUS
+
+  - label: Order Line Name
+    column: ORDER_LINE_NAME
+
+  - label: Product Name
+    column: PRODUCT_NAME
+
+  - label: Product Type
+    column: PRODUCT_TYPE
+
+  - label: Sku
+    column: SKU
+
+  - label: Order Line Id
+    column: order_line_id
+  
+  - label: Order Id
+    column: ORDER_ID
+
+  - label: Product Id
+    column: PRODUCT_ID
+
+
+measures:
+  - name: total_order_lines
+    label: Total Order Lines
+    expression: COUNT(ORDER_LINE_ID)
+    description: The total number of order lines.
+    format_preset: humanize
+    valid_percent_of_total: true  
+
+  - name: total_quantity_ordered
+    label: Total Quantity Ordered
+    expression: SUM(QUANTITY)
+    description: The total quantity of items ordered across all order lines.
+    format_preset: humanize
+    valid_percent_of_total: true  
+
+  - name: average_quantity_per_order_line
+    label: Average Quantity per Order Line
+    expression: AVG(QUANTITY)
+    description: The average quantity of items per order line.
+    format_preset: humanize
+
+  - name: total_pre_tax_revenue
+    label: Total Pre-Tax Revenue
+    expression: SUM(PRE_TAX_PRICE)
+    description: The total revenue from all order lines before tax.
+    format_preset: currency_usd
+    valid_percent_of_total: true  
+
+  - name: total_revenue
+    label: Total Revenue
+    expression: SUM(PRICE)
+    description: The total revenue from all order lines including tax.
+    format_preset: currency_usd
+    valid_percent_of_total: true  
+
+  - name: total_discount_given
+    label: Total Discount Given
+    expression: SUM(TOTAL_DISCOUNT)
+    description: The total discount amount given across all order lines.
+    format_preset: currency_usd
+    valid_percent_of_total: true  
+    
+  - name: average_discount_per_order_line
+    label: Average Discount per Order Line
+    expression: AVG(TOTAL_DISCOUNT)
+    description: The average discount amount per order line.
+    format_preset: currency_usd
+
+  - name: total_tax_collected
+    label: Total Tax Collected
+    expression: SUM(TAX_AMOUNT)
+    description: The total tax amount collected from all order lines.
+    format_preset: currency_usd
+    valid_percent_of_total: true      
+
+  - name: total_refund_amount
+    label: Total Refund Amount
+    expression: SUM(REFUND_SUBTOTAL)
+    description: The total amount refunded across all order lines.
+    format_preset: currency_usd
+    valid_percent_of_total: true  

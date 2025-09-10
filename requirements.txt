@@ -1,0 +1,4 @@
+duckdb
+dbt-core>=1.9
+dbt-duckdb
+pandas

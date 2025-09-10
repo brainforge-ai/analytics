@@ -1,0 +1,83 @@
+models:
+  - name: int_recharge__subscriptions
+    columns:
+      - name: subscription_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: cancelled_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: price
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: quantity
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: charge_interval_frequency
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_interval_frequency
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_interval_unit
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: next_renewal_date
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: next_order_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: cancellation_reason
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: discount_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: discount_value
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: discount_value_type
+        description: ""
+        meta:
+          dimension:
+            type: string

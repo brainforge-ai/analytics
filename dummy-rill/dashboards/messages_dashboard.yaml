@@ -1,0 +1,47 @@
+type: metrics_view
+
+title: Messages Dashboard
+model: prod_fact_messages_model
+timeseries: message_created_datetime
+
+dimensions:
+  - label: Message ID
+    column: message_id
+
+  - label: Ticket ID
+    column: ticket_id
+
+  - label: Message Created Date
+    expression: message_created_datetime::date
+
+  - label: Message Channel
+    column: message_channel
+
+  - label: Message From Type
+    column: message_from_type
+
+  - label: Customer Name
+    column: customer_name
+
+  - label: Message Length
+    expression: "LENGTH(message_body_text)"
+
+measures:
+  - label: Total Messages
+    expression: "COUNT(*)"
+    format_preset: humanize
+    valid_percent_of_total: true  
+
+  - label: Total Agent Messages
+    expression: "SUM(CASE WHEN message_from_type = 'agent' THEN 1 ELSE 0 END)"
+    format_preset: humanize
+    valid_percent_of_total: true  
+
+  - label: Average Message Length (Characters)
+    expression: "AVG(LENGTH(message_body_text))"
+    format_preset: humanize
+
+  - label: Messages per Ticket
+    expression: "COUNT(*) / COUNT(DISTINCT ticket_id)"
+    format_preset: humanize
+    valid_percent_of_total: true  

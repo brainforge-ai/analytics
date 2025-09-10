@@ -1,0 +1,38 @@
+models:
+  - name: int_shopify_order_adjustment
+    columns:
+      - name: order_adjustment_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: refund_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_adjustment_amount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_adjustment_tax_amount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_adjustment_kind
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_adjustment_reason
+        description: ""
+        meta:
+          dimension:
+            type: string
