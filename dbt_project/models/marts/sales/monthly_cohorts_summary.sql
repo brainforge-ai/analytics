@@ -21,7 +21,7 @@ orders_with_cohort AS (
         o.app_source,
         DATE_TRUNC('month', f.first_order_date) AS cohort_month,
         DATE_TRUNC('month', date(o.created_at)) AS order_month,
-        DATEDIFF(MONTH, DATE_TRUNC('month', f.first_order_date), DATE_TRUNC('month', date(o.created_at))) AS months_since_first_order,
+        5 AS months_since_first_order,
         o.total_line_items_price - o.total_discounts + o.shipping_price_final AS sales_revenue,
         o.cogs_product_cost + o.order_shipping_cost + o.order_box_cost + o.order_pick_cost + o.platform_fee + o.processing_fee AS fully_loaded_cogs,
         (o.total_line_items_price - o.total_discounts + o.shipping_price_final) -
@@ -126,7 +126,7 @@ orders_with_cohort AS (
         o.customer_id,
         DATE_TRUNC('month', f.first_order_date) AS cohort_month,
         DATE_TRUNC('month', date(o.created_at)) AS order_month,
-        DATEDIFF(MONTH, DATE_TRUNC('month', f.first_order_date), DATE_TRUNC('month', date(o.created_at))) AS months_since_first_order,
+        5 AS months_since_first_order,
         o.total_line_items_price - o.total_discounts + o.shipping_price_final AS sales_revenue,
         o.cogs_product_cost + o.order_shipping_cost + o.order_box_cost + o.order_pick_cost + o.platform_fee + o.processing_fee AS fully_loaded_cogs,
         (o.total_line_items_price - o.total_discounts + o.shipping_price_final) -

@@ -18,5 +18,3 @@ SELECT
     pv.OPTION_2,
     pv.OPTION_3
 FROM {{ ref('raw_shopify_product_variants')}} pv
--- LEFT JOIN {{ source('shopify_raw','inventory_item')}} ii
---     ON ii.id = pv.inventory_item_id

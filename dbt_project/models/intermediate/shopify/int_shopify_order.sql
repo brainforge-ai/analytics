@@ -3,32 +3,20 @@ WITH discounts AS (
     SELECT
         ORDER_ID,
         LISTAGG(DISTINCT DISCOUNT_CODE,', ') AS DISCOUNT_CODE,
-        SUM(DISCOUNT_AMOUNT) AS DISCOUNT_AMOUNT
+        SUM(cast(DISCOUNT_AMOUNT as float)) AS DISCOUNT_AMOUNT
     FROM {{ ref('raw_shopify_order_discount_codes')}}
     GROUP BY 1
 
 ),
 
-fees AS (
-
-    SELECT 
-        order_id,
-        -- Aggregate receipt data to keep one row per order, as detailed granularity isn't needed.
-        LISTAGG(receipt, ', ') as receipt,
-        SUM(JSON_EXTRACT_PATH_TEXT(receipt, 'PaymentInfo.FeeAmount')) AS FEE_AMOUNT
-    from {{ source('shopify_raw','transaction')}}
-    WHERE receipt ILIKE ('%feeamount%')
-    GROUP BY all
-
-),
 
 shipping_codes AS (
 
     SELECT
         ORDER_ID,
         LISTAGG(DISTINCT SHIPPING_CODE,', ') AS SHIPPING_CODE,
-        SUM(SHIPPING_PRICE) AS SHIPPING_PRICE,
-        SUM(DISCOUNTED_PRICE) AS SHIPPING_DISCOUNTED_PRICE
+        SUM(cast(SHIPPING_PRICE as float)) AS SHIPPING_PRICE,
+        SUM(cast(DISCOUNTED_PRICE as float)) AS SHIPPING_DISCOUNTED_PRICE
     FROM {{ ref('raw_shopify_order_shipping_lines')}}
     GROUP BY 1
 
@@ -93,7 +81,7 @@ product_cost as (
     
     select
         order_id,
-        COALESCE(SUM(PRODUCT_COST), 0) AS cogs_product_cost -- total_product_cost is not being used in downstream models or dashboards, so we changed it to cogs_product_cost
+        COALESCE(SUM(cast(PRODUCT_COST as float)), 0) AS cogs_product_cost -- total_product_cost is not being used in downstream models or dashboards, so we changed it to cogs_product_cost
     from {{ ref('int_shopify_order_line') }}
     group by all
  
@@ -103,8 +91,8 @@ order_quantity as (
     
     select
         order_id,
-        sum(ITEM_QUANTITY) as order_quantity,
-        sum(ITEM_QUANTITY*pre_tax_price) as total_line_items_price
+        sum(cast(ITEM_QUANTITY as INTEGER)) as order_quantity,
+        sum(cast(ITEM_QUANTITY as INTEGER) * cast(PRE_TAX_PRICE as float)) as total_line_items_price
     from {{ ref('int_shopify_order_line') }}
     where lower(product_name) not like '%shipping%'
     group by all
@@ -176,16 +164,16 @@ final as (
         o.CURRENT_TOTAL_DISCOUNTS::float as current_total_discounts,
         o.CURRENT_SUBTOTAL_PRICE::float as current_subtotal_price,
         o.CURRENT_TOTAL_TAX::float as current_total_tax,
-        f.fee_amount::float as fee_amount,
+        0 as fee_amount,
         re.refund_amount::float as refund_amount,
         re.refund_code,
         re.refund_reason,
         re.refund_created_at,
         re.refund_processed_at,
         re.is_returned,
-        sc.shipping_price,
-        sc.shipping_discounted_price,
-        sc.shipping_price - sc.shipping_discounted_price as shipping_discount_amount,
+        cast(sc.shipping_price as float) as shipping_price,
+        cast(sc.shipping_discounted_price as float) as shipping_discounted_price,
+        cast(sc.shipping_price as float) - cast(sc.shipping_discounted_price as float) as shipping_discount_amount,
         sc.shipping_code,
 
         -- shipping address
@@ -242,8 +230,6 @@ final as (
         ON re.order_id = o.ORDER_ID
     LEFT JOIN tiktok_order_id toi
         ON toi.order_id = o.ORDER_ID
-    LEFT JOIN fees f
-        ON f.order_id = o.ORDER_ID
     LEFT JOIN shopify_tags st
         ON st.order_id = o.ORDER_ID
     left join offer off
@@ -267,9 +253,5 @@ final as (
 )
 
 select 
-    final.*,
-    case when EXTERNAL_ORDER_ID:"ECOMMERCE"::integer is not null then TRUE ELSE FALSE end as is_recharge_order
+    final.*
 from final 
-left join {{source('portable_recharge', 'orders')}}
-on order_id = EXTERNAL_ORDER_ID:"ECOMMERCE"::integer
-group by all

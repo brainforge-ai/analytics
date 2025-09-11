@@ -3,23 +3,24 @@ SELECT
     c.ID AS CUSTOMER_ID,
     CREATED_AT,
     -- Address Fields
-    addr.VALUE:ID::STRING AS ADDRESS_ID,
-    addr.VALUE:ADDRESS1::STRING AS ADDRESS_1,
-    addr.VALUE:ADDRESS2::STRING AS ADDRESS_2,
-    addr.VALUE:CITY::STRING AS CITY,
-    addr.VALUE:COMPANY::STRING AS COMPANY,
-    addr.VALUE:COUNTRY::STRING AS COUNTRY,
-    addr.VALUE:COUNTRY_CODE::STRING AS COUNTRY_CODE,
-    addr.VALUE:COUNTRY_NAME::STRING AS COUNTRY_NAME,
-    addr.VALUE:CUSTOMER_ID::STRING AS CUSTOMER_REF_ID,
-    addr.VALUE:DEFAULT::BOOLEAN AS IS_DEFAULT,
-    addr.VALUE:FIRST_NAME::STRING AS FIRST_NAME,
-    addr.VALUE:LAST_NAME::STRING AS LAST_NAME,
-    addr.VALUE:NAME::STRING AS FULL_NAME,
-    addr.VALUE:PHONE::STRING AS PHONE,
-    addr.VALUE:PROVINCE::STRING AS PROVINCE,
-    addr.VALUE:PROVINCE_CODE::STRING AS PROVINCE_CODE,
-    addr.VALUE:ZIP::STRING AS ZIP
+    addr->>'ID' AS ADDRESS_ID,
+    addr->>'ADDRESS1' AS ADDRESS_1,
+    addr->>'ADDRESS2' AS ADDRESS_2,
+    addr->>'CITY' AS CITY,
+    addr->>'COMPANY' AS COMPANY,
+    addr->>'COUNTRY' AS COUNTRY,
+    addr->>'COUNTRY_CODE' AS COUNTRY_CODE,
+    addr->>'COUNTRY_NAME' AS COUNTRY_NAME,
+    addr->>'CUSTOMER_ID' AS CUSTOMER_REF_ID,
+    addr->>'DEFAULT' AS IS_DEFAULT,
+    addr->>'FIRST_NAME' AS FIRST_NAME,
+    addr->>'LAST_NAME' AS LAST_NAME,
+    addr->>'NAME' AS FULL_NAME,
+    addr->>'PHONE' AS PHONE,
+    addr->>'PROVINCE' AS PROVINCE,
+    addr->>'PROVINCE_CODE' AS PROVINCE_CODE,
+    addr->>'ZIP' AS ZIP
 FROM
-    {{ source('portable_shopify','customers') }} c,
-    TABLE(FLATTEN(INPUT => c.ADDRESSES)) addr -- Flatten the addresses array
+    {{ source('shopify','customers') }} c,
+    UNNEST(c.ADDRESSES) AS addr -- Flatten the addresses array
+    

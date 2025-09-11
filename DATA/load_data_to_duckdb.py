@@ -29,15 +29,15 @@ def main():
     # Create tables from JSONL files
     print("Loading data into DuckDB...")
 
-    con.execute(
-        f"CREATE OR REPLACE TABLE customers AS SELECT * FROM read_json_auto('{customers_file}')"
-    )
-    con.execute(
-        f"CREATE OR REPLACE TABLE products AS SELECT * FROM read_json_auto('{products_file}')"
-    )
-    con.execute(
-        f"CREATE OR REPLACE TABLE orders AS SELECT * FROM read_json_auto('{orders_file}')"
-    )
+    # con.execute(
+    #     f"CREATE OR REPLACE TABLE customers AS SELECT * FROM read_json_auto('{customers_file}')"
+    # )
+    # con.execute(
+    #     f"CREATE OR REPLACE TABLE products AS SELECT * FROM read_json_auto('{products_file}')"
+    # )
+    # con.execute(
+    #     f"CREATE OR REPLACE TABLE orders AS SELECT * FROM read_json_auto('{orders_file}')"
+    # )
 
     # Show counts
     print("\nRow counts:")
@@ -49,7 +49,7 @@ def main():
     print("\nSample rows:")
     for table in ["customers", "products", "orders"]:
         print(f"\n--- {table.upper()} ---")
-        df = con.execute(f"SELECT * FROM {table} LIMIT 5").fetchdf()
+        df = con.execute(f"SELECT first_name FROM customers LIMIT 5").fetchdf()
         print(df)
 
     # Close connection

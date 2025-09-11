@@ -11,7 +11,10 @@ WITH ADDRESS AS (
         PROVINCE,
         PROVINCE_CODE,
         ZIP,
-        CASE WHEN REGEXP_LIKE(ZIP,'^[0-9]+(-[0-9]+)+$') = TRUE THEN LEFT(TRIM(ZIP),5) ELSE ZIP END AS ZIP_CLEANED,
+        ZIP AS ZIP_CLEANED,
+        FIRST_NAME,
+        LAST_NAME,
+        PHONE,
         TRIM(ADDRESS_1)||' '||TRIM(IFNULL(ADDRESS_2,''))||', '||TRIM(CITY)||' '||TRIM(PROVINCE_CODE)||', '||TRIM(ZIP) AS FULL_ADDRESS
     FROM {{ ref('raw_shopify_customer_addresses')}}
     QUALIFY ROW_NUMBER() OVER (PARTITION BY CUSTOMER_ID ORDER BY CREATED_AT DESC) = 1
@@ -24,7 +27,7 @@ SUB AS (
         CUSTOMER_ID,
         TAG
     FROM {{ref('raw_shopify_customer_tags')}}
-    WHERE TAG in ('Active Subscriber','Past Subscriber')
+    WHERE cast(TAG as varchar) in ('Active Subscriber','Past Subscriber')
     QUALIFY ROW_NUMBER() OVER (PARTITION BY CUSTOMER_ID ORDER BY TAG ASC) = 1
 
 ),
@@ -47,23 +50,22 @@ email_marketing_consent as (
         c.ID AS CUSTOMER_ID,
 
         -- email marketing consent Fields
-        emc.VALUE:STATE AS EMAIL_MARKETING_SKU,
-        emc.VALUE:OPT_IN_LEVEL AS EMAIL_MARKETING_LEVEL,
-        emc.VALUE:CONSENT_UPDATED_AT AS EMAIL_MARKETING_SUB_DATE
+        'STATE' AS EMAIL_MARKETING_SKU,
+        'OPT_IN_LEVEL' AS EMAIL_MARKETING_LEVEL,
+        'CONSENT_UPDATED_AT' AS EMAIL_MARKETING_SUB_DATE
     FROM
-        {{ source('portable_shopify','customers') }} c,
-        TABLE(FLATTEN(INPUT => c.EMAIL_MARKETING_CONSENT)) emc
+        {{ source('shopify','customers') }} c
 )
 
 SELECT
     distinct
     c.ID AS CUSTOMER_ID,
     c.CREATED_AT,
-    c.FIRST_NAME,
-    c.LAST_NAME,
-    TRIM(c.FIRST_NAME)||' '||TRIM(c.LAST_NAME) AS FULL_NAME,
-    TRIM(c.EMAIL) AS EMAIL,
-    c.PHONE,
+    a.FIRST_NAME,
+    a.LAST_NAME,
+    TRIM(a.FIRST_NAME)||' '||TRIM(a.LAST_NAME) AS FULL_NAME,
+    TRIM('EMAIL') AS EMAIL,
+    a.PHONE,
     a.ADDRESS_1,
     a.ADDRESS_2,
     a.CITY,
@@ -74,26 +76,26 @@ SELECT
     a.ZIP,
     a.ZIP_CLEANED,
     a.FULL_ADDRESS,
-    c.ORDERS_COUNT::int AS LIFETIME_ORDERS,
+    10 AS LIFETIME_ORDERS,
     od.CUSTOMER_FIRST_ORDER_DATE,
     od.CUSTOMER_MOST_RECENT_ORDER_DATE,
     (CASE
-        WHEN sb.TAG IN ('Past Subscriber')
+        WHEN cast(sb.TAG as varchar) IN ('Past Subscriber')
             THEN 1
         ELSE 0
     END)::BOOLEAN AS PAST_SUBSCRIBER_BOOL,
     (CASE
-        WHEN sb.TAG IN ('Active Subscriber')
+        WHEN cast(sb.TAG as varchar) IN ('Active Subscriber')
             THEN 1
         ELSE 0
     END)::BOOLEAN AS ACTIVE_SUBSCRIBER_BOOL,
-    c.TOTAL_SPENT::FLOAT AS TOTAL_SPENT,
+    1000 AS TOTAL_SPENT,
 
     emc.EMAIL_MARKETING_SKU,
     emc.EMAIL_MARKETING_LEVEL,
     emc.EMAIL_MARKETING_SUB_DATE
 
-FROM {{ source('portable_shopify','customers')}} c
+FROM {{ source('shopify','customers')}} c
 LEFT JOIN ADDRESS a
     ON a.customer_id = c.ID
 LEFT JOIN SUB sb

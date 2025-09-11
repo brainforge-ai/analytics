@@ -4,17 +4,14 @@ SELECT
     p.ID AS PRODUCT_ID,
     'SHOPIFY' AS SOURCE_SYSTEM,
     p.TITLE AS PRODUCT_TITLE,
-    p.HANDLE,
-    CASE WHEN p.PRODUCT_TYPE = '' THEN pc.product_type ELSE p.PRODUCT_TYPE END AS PRODUCT_TYPE,
+    'handle' as HANDLE,
+    CASE WHEN p.PRODUCT_TYPE = '' THEN 'OTHER' ELSE p.PRODUCT_TYPE END AS PRODUCT_TYPE,
     p.VENDOR,
-    p.CREATED_AT,
-    p.UPDATED_AT,
-    p.PUBLISHED_AT,
-    p.PUBLISHED_SCOPE,
-    p.STATUS,
-    p.tags as PRODUCT_TAGS,
-    p.TEMPLATE_SUFFIX AS SUFFIX
-FROM  {{ source('portable_shopify','products')}} p
-left join {{ ref('product_category_mapping')}} pc
-    on pc.title = p.title
-    
+    '2025-01-01' as CREATED_AT,
+    '2025-01-01' as UPDATED_AT,
+    '2025-01-01' as PUBLISHED_AT,
+    'PUBLISHED_SCOPE' as PUBLISHED_SCOPE,
+    'STATUS' as STATUS,
+    'tags' as PRODUCT_TAGS,
+    'TEMPLATE_SUFFIX' as SUFFIX
+FROM  {{ source('shopify','products')}} p
